@@ -1,0 +1,56 @@
+# depslib dependency file v1.0
+1741424933 source:d:\chickeninvader\bullet.cpp
+
+1741425074 source:d:\chickeninvader\explosion.cpp
+
+1741424921 source:d:\chickeninvader\powerup.cpp
+
+1741446268 source:d:\chickeninvader\chicken.cpp
+	"Chicken.h"
+	"Config.h"
+
+1741446686 d:\chickeninvader\chicken.h
+	<SDL.h>
+
+1741445907 d:\chickeninvader\utils.h
+	<string>
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+
+1741446851 d:\chickeninvader\config.h
+
+1741446966 source:d:\chickeninvader\player.cpp
+	"Player.h"
+	"Config.h"
+	"Game.h"
+
+1741446708 d:\chickeninvader\player.h
+	<SDL.h>
+
+1741444427 source:d:\chickeninvader\main.cpp
+	<bits/stdc++.h>
+	"Game.h"
+
+1741447003 d:\chickeninvader\game.h
+	<SDL.h>
+	<SDL_image.h>
+	<bits/stdc++.h>
+	"Player.h"
+	"Chicken.h"
+	"Bullet.h"
+	"Utils.h"
+	"Config.h"
+
+1741424933 d:\chickeninvader\bullet.h
+
+1741446358 source:d:\chickeninvader\game.cpp
+	"Game.h"
+	"Utils.h"
+
+1741445881 source:d:\chickeninvader\utils.cpp
+	<cstdlib>
+	<ctime>
+	<string>
+	"Utils.h"
+
