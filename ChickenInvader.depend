@@ -18,7 +18,7 @@
 
 1741586944 d:\chickeninvader\config.h
 
-1741586797 source:d:\chickeninvader\player.cpp
+1741587545 source:d:\chickeninvader\player.cpp
 	<bits/stdc++.h>
 	"Player.h"
 	"Game.h"
@@ -55,4 +55,10 @@
 	<ctime>
 	<string>
 	"Utils.h"
+
+1741587209 source:d:\chickeninvader\random.cpp
+	"Random.h"
+
+1741587246 d:\chickeninvader\random.h
+	<random>
 
