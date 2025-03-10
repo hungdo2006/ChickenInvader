@@ -14,7 +14,7 @@ const int Chicken_WIDTH = 50;
 const int Chicken_HEIGHT = 50;
 const int DEFAULT_BULLET_SPEED  = -10;
 const int LASER_BULLET_SPEED = -20;
-const int Bullet_WIDTH = 10;
-const int Bullet_HEIGHT = 20;
+const int Bullet_WIDTH = 40;
+const int Bullet_HEIGHT = 40;
 
 #endif

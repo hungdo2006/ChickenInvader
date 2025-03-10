@@ -19,9 +19,9 @@
 
 1741575851 d:\chickeninvader\utils.h
 
-1741590968 d:\chickeninvader\config.h
+1741595516 d:\chickeninvader\config.h
 
-1741594440 source:d:\chickeninvader\player.cpp
+1741596747 source:d:\chickeninvader\player.cpp
 	<bits/stdc++.h>
 	"Player.h"
 	"Game.h"
@@ -36,7 +36,7 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1741594596 d:\chickeninvader\game.h
+1741596283 d:\chickeninvader\game.h
 	<SDL.h>
 	<SDL_image.h>
 	<bits/stdc++.h>
@@ -50,7 +50,7 @@
 1741594379 d:\chickeninvader\bullet.h
 	<SDL.h>
 
-1741586304 source:d:\chickeninvader\game.cpp
+1741595807 source:d:\chickeninvader\game.cpp
 	<bits/stdc++.h>
 	"Game.h"
 	"Config.h"

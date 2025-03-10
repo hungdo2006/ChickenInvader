@@ -58,12 +58,20 @@ SDL_Texture* Game::loadTexture(const std::string& filePath){
     return texture;
 }
 void Game::handleEvents(){
-    SDL_Event event;
-    while(SDL_PollEvent(&event)){
-        if(event.type == SDL_QUIT){
+    SDL_Event e;
+    while(SDL_PollEvent(&e)){
+        if(e.type == SDL_QUIT){
             running = false;
         }
-        player->handleInput(event,this);
+        player->handleInput(e,this);
+        if (e.type == SDL_KEYDOWN) {
+            if (e.key.keysym.sym == SDLK_SPACE) {
+            shoot(isLaser);
+            }
+            if (e.key.keysym.sym == SDLK_b) {
+            toggleBulletType();
+            }
+        }
     }
 }
 void Game::update(){
@@ -141,6 +149,10 @@ void Game::shoot(bool isLaser) {
             bullets.push_back(new Bullet(playerX, playerY, bulletTexture, DEFAULT_BULLET_SPEED));
         }
     }
+}
+void Game::toggleBulletType() {
+    isLaser = !isLaser;
+    cout << "Switched bullet type: " << (isLaser ? "Laser" : "Normal") << endl;
 }
 void Game::updateBullets() {
     for (size_t i = 0; i < bullets.size(); i++) {

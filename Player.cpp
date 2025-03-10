@@ -31,8 +31,6 @@ void Player::handleInput( SDL_Event& e, Game* game )
             case SDLK_DOWN: mVelY += Player_VEL; break;
             case SDLK_LEFT: mVelX -= Player_VEL; break;
             case SDLK_RIGHT: mVelX += Player_VEL; break;
-            case SDLK_SPACE: game->shoot(isLaser); break;
-            case SDLK_l: isLaser = !isLaser; break;
         }
     }
     else if( e.type == SDL_KEYUP && e.key.repeat == 0 )

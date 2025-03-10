@@ -29,6 +29,7 @@ public:
 
     void spawnChickens(int num);
     void shoot(bool isLaser);
+    void toggleBulletType();
     void updateBullets();
     void renderBullets(SDL_Renderer* renderer);
 
@@ -42,6 +43,7 @@ public:
     Player* player;
     vector<Chicken*> chickens;
     vector<Bullet*> bullets;
+    bool isLaser = false;
 };
 
 #endif
