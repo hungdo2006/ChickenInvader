@@ -78,10 +78,20 @@ void Game::handleEvents(){
 void Game::update(){
     background->update();
     player->update();
-    updateBullets();
+
     for (auto* chicken : chickens) {
         chicken->update();
     }
+
+     for (auto chicken : chickens) {
+        if (checkCollision(player->getRect(), chicken->getRect())) {
+        cout << "Game Over!" << endl;
+            running = false;
+            return;
+        }
+    }
+
+    updateBullets();
 }
 void Game::render() {
 
