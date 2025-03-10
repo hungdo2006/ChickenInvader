@@ -43,6 +43,7 @@ bool Game::init(){
         }
     }
     player = new Player(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+    background = new Background(this, "assets/textures/background.png", 2);
 
     running = true;
 
@@ -75,6 +76,7 @@ void Game::handleEvents(){
     }
 }
 void Game::update(){
+    background->update();
     player->update();
     updateBullets();
     for (auto* chicken : chickens) {
@@ -85,6 +87,8 @@ void Game::render() {
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
+
+    background->render(renderer);
 
     for (auto* chicken : chickens){
         chicken->render(renderer);
@@ -108,6 +112,8 @@ void Game::close() {
         delete bullet;
     }
     bullets.clear();
+
+    delete background;
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -157,10 +163,26 @@ void Game::toggleBulletType() {
 void Game::updateBullets() {
     for (size_t i = 0; i < bullets.size(); i++) {
         bullets[i]->update();
+
         if (bullets[i]->isOffScreen()) {
             delete bullets[i];
             bullets.erase(bullets.begin() + i);
             i--;
+            continue;
+        }
+
+        for (int j = 0; j < chickens.size(); j++) {
+            if (checkCollision(bullets[i]->getRect(), chickens[j]->getRect())) {
+
+                delete chickens[j];
+                chickens.erase(chickens.begin() + j);
+
+                delete bullets[i];
+                bullets.erase(bullets.begin() + i);
+                i--;
+
+                break;
+            }
         }
     }
 }

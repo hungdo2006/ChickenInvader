@@ -11,6 +11,7 @@
 #include "LaserBullet.h"
 #include "Utils.h"
 #include "Config.h"
+#include "Background.h"
 
 using namespace std;
 class Game {
@@ -43,6 +44,7 @@ public:
     Player* player;
     vector<Chicken*> chickens;
     vector<Bullet*> bullets;
+    Background* background;
     bool isLaser = false;
 };
 
