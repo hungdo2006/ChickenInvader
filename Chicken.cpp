@@ -1,28 +1,32 @@
 #include "Chicken.h"
 #include "Config.h"
+#include "Game.h"
+#include <iostream>
 
-Chicken::Chicken()
-{
-    mPosX = 0;
-    mPosY = 0;
-
-	mColliderChicken.w = Chicken_WIDTH;
-	mColliderChicken.h = Chicken_HEIGHT;
-
-    mVelX = 0;
-    mVelY = 0;
-}
-Chicken::Chicken(int x , int y){
+Chicken::Chicken(Game* game, int x, int y){
     mPosX = x;
     mPosY = y;
-
-	mColliderChicken.w = Chicken_WIDTH;
-	mColliderChicken.h = Chicken_HEIGHT;
-
-    mVelX = 0;
+     mVelX = 0;
     mVelY = 0;
+    rectChicken = {mPosX, mPosY, 50, 50};
+    texture = game->loadTexture("assets/textures/chicken.png");
+    if (!texture) {
+        cout << "Fail to load chicken image!" << IMG_GetError() << endl;
+    }
+}
+Chicken::~Chicken() {
+    if (texture) {
+        SDL_DestroyTexture(texture);
+        texture = nullptr;
+    }
+}
+void Chicken::update() {
+    rectChicken.y += Chicken_VEL;
 }
 void Chicken::render(SDL_Renderer* renderer)
 {
-	chickenTexture.renderT( mPosX, mPosY,renderer);
+    SDL_RenderCopy(renderer, texture, nullptr, &rectChicken);
+}
+SDL_Rect Chicken::getRect() const {
+    return rectChicken;
 }

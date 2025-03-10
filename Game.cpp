@@ -1,5 +1,6 @@
+#include <bits/stdc++.h>
 #include "Game.h"
-#include "Utils.h"
+#include "Config.h"
 using namespace std;
 
 Game::Game(){
@@ -41,54 +42,77 @@ bool Game::init(){
             }
         }
     }
+    player = new Player(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 
     running = true;
 
-    spawnChicken();
+    spawnChickens(10);
 
     return success;
 }
-bool Game::loadMedia(){
-    bool success = true;
-    if(!playerTexture.loadFromFile("assets/textures/player.jpg",renderer)){
-        cout <<  "Failed to load player image!" << endl;
-		success = false;
+SDL_Texture* Game::loadTexture(const std::string& filePath){
+    SDL_Texture* texture = IMG_LoadTexture(renderer, filePath.c_str());
+    if (!texture) {
+        cout << "Failed to load texture!" << filePath << " - " << IMG_GetError() << endl;
     }
-    if(!chickenTexture.loadFromFile("assets/textures/chicken.png",renderer)){
-        cout <<  "Failed to load chicken image!" << endl;
-		success = false;
+    return texture;
+}
+void Game::handleEvents(){
+    SDL_Event event;
+    while(SDL_PollEvent(&event)){
+        if(event.type == SDL_QUIT){
+            running = false;
+        }
+        player->handleInput(event);
     }
-    return success;
+}
+void Game::update(){
+    player->update();
+    for (auto* chicken : chickens) {
+        chicken->update();
+    }
 }
 void Game::render() {
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
-    player.render(renderer);
-
-    for (size_t i = 0; i < chickens.size(); i++){
-    chickens[i].render(renderer);
+    for (auto* chicken : chickens){
+        chicken->render(renderer);
     }
+
+    player->render(renderer);
 
     SDL_RenderPresent(renderer);
 }
 
 void Game::close() {
-    playerTexture.free();
-    chickenTexture.free();
+      delete player;
 
-      chickens.clear();
-
+    for (auto* chicken : chickens) {
+        delete chicken;
+    }
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-
     SDL_Quit();
     IMG_Quit();
 }
-void Game::spawnChicken() {
-        Chicken chicken(Random(0, 800), Random(0, 200));
-        chickens.push_back(chicken);
+bool Game::isRunning(){
+    return running;
 }
-
+void Game::run(){
+    while (isRunning()) {
+        handleEvents();
+        update();
+        render();
+        SDL_Delay(16);
+    }
+}
+void Game::spawnChickens(int num) {
+    for (int i = 0; i < num; i++) {
+        int x = (i % 5) * 100 + 50;
+        int y = (i / 5) * 80 + 50;
+        chickens.push_back(new Chicken(this, x, y));
+    }
+}

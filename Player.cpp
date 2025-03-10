@@ -1,19 +1,26 @@
+#include <bits/stdc++.h>
 #include "Player.h"
-#include "Config.h"
 #include "Game.h"
-Player::Player()
-{
-    mPosX = 0;
-    mPosY = 0;
+#include "Config.h"
 
-	mColliderPlayer.w = Player_WIDTH;
-	mColliderPlayer.h = Player_HEIGHT;
-
+Player::Player(Game* game,int x, int y){
+    mPosX = x;
+    mPosY = y;
     mVelX = 0;
     mVelY = 0;
+    rectPlayer = {mPosX, mPosY, 50, 50};
+    texture = game->loadTexture("assets/textures/player.jpg");
+    if (!texture) {
+        cout << "Fail to load player image!" << IMG_GetError() << endl;
+    }
 }
-
-void Player::handleEvent( SDL_Event& e )
+Player::~Player(){
+   if (texture) {
+    SDL_DestroyTexture(texture);
+    texture = nullptr;
+    }
+}
+void Player::handleInput( SDL_Event& e )
 {
 	if( e.type == SDL_KEYDOWN && e.key.repeat == 0 )
     {
@@ -36,29 +43,28 @@ void Player::handleEvent( SDL_Event& e )
         }
     }
 }
-void Player::move()
+void Player::update()
 {
     mPosX += mVelX;
-	mColliderPlayer.x = mPosX;
+     mPosY += mVelY;
 
     if( ( mPosX < 0 ) || ( mPosX + Player_WIDTH > SCREEN_WIDTH ))
     {
         mPosX -= mVelX;
-		mColliderPlayer.x = mPosX;
     }
-
-
-    mPosY += mVelY;
-	mColliderPlayer.y = mPosY;
-
     if( ( mPosY < 0 ) || ( mPosY + Player_HEIGHT > SCREEN_HEIGHT ))
     {
         mPosY -= mVelY;
-		mColliderPlayer.y = mPosY;
     }
+
+    rectPlayer.x = mPosX;
+    rectPlayer.y = mPosY;
 }
 void Player::render(SDL_Renderer* renderer)
 {
-	playerTexture.renderT( mPosX, mPosY,renderer);
+    SDL_RenderCopy(renderer, texture, nullptr, &rectPlayer);
+}
+SDL_Rect Player::getRect() const {
+    return rectPlayer;
 }
 

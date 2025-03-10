@@ -1,3 +1,4 @@
+/*
 #include <cstdlib>
 #include <ctime>
 #include <string>
@@ -73,7 +74,7 @@ bool LTexture::loadFromFile(string path,SDL_Renderer* renderer){
     SDL_FreeSurface(image);
     return mTexture != NULL;
 }
-/*
+
 bool LTexture::loadFromText(string text, SDL_Color textColor){
     free();
     SDL_Surface* textSurface = TTF_RenderText_Solid(gFont, text.c_str(), textColor);
@@ -91,7 +92,7 @@ bool LTexture::loadFromText(string text, SDL_Color textColor){
     }
     return mTexture != NULL;
 }
-*/
+
 void LTexture::renderT(int x, int y,SDL_Renderer* renderer){
     SDL_Rect renderQuad = {x,y,40,40};
    SDL_RenderCopy(renderer,mTexture,NULL,&renderQuad);
@@ -111,4 +112,4 @@ int LTexture::getHeight(){
 int LTexture::getWidth(){
     return width;
 }
-
+*/

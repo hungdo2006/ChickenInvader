@@ -12,32 +12,32 @@
 #include "Config.h"
 
 using namespace std;
-LTexture chickenTexture;
-LTexture playerTexture;
 class Game {
 public:
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    bool running ;
-
-    Player player;
-    vector<Chicken> chickens;
-
-    bool loadMedia();
 
     Game();
     ~Game();
 
     bool init();
+    void run();
     void handleEvents();
     void update();
     void render();
     void close();
+    bool isRunning();
 
-    void spawnChicken();
+    void spawnChickens(int num);
     void spawnBullet();
 
     void handleCollisions();
+    SDL_Texture* loadTexture(const string& filePath);
+
+    private:
+    SDL_Window* window;
+    SDL_Renderer* renderer;
+    bool running ;
+    Player* player;
+    vector<Chicken*> chickens;
 };
 
 #endif
