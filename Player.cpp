@@ -20,8 +20,9 @@ Player::~Player(){
     texture = nullptr;
     }
 }
-void Player::handleInput( SDL_Event& e )
+void Player::handleInput( SDL_Event& e, Game* game )
 {
+     bool isLaser = false;
 	if( e.type == SDL_KEYDOWN && e.key.repeat == 0 )
     {
         switch( e.key.keysym.sym )
@@ -30,6 +31,8 @@ void Player::handleInput( SDL_Event& e )
             case SDLK_DOWN: mVelY += Player_VEL; break;
             case SDLK_LEFT: mVelX -= Player_VEL; break;
             case SDLK_RIGHT: mVelX += Player_VEL; break;
+            case SDLK_SPACE: game->shoot(isLaser); break;
+            case SDLK_l: isLaser = !isLaser; break;
         }
     }
     else if( e.type == SDL_KEYUP && e.key.repeat == 0 )

@@ -7,7 +7,7 @@ class Player
     public:
 		Player(Game* game,int x, int y);
 		~Player();
-		void handleInput( SDL_Event& e );
+		void handleInput( SDL_Event& e , Game* game);
 		void update();
 		void render(SDL_Renderer* renderer);
 		SDL_Rect getRect() const;

@@ -46,7 +46,7 @@ bool Game::init(){
 
     running = true;
 
-    spawnChickens(10);
+    spawnChickens(NUM_CHICKENS);
 
     return success;
 }
@@ -63,11 +63,12 @@ void Game::handleEvents(){
         if(event.type == SDL_QUIT){
             running = false;
         }
-        player->handleInput(event);
+        player->handleInput(event,this);
     }
 }
 void Game::update(){
     player->update();
+    updateBullets();
     for (auto* chicken : chickens) {
         chicken->update();
     }
@@ -82,6 +83,7 @@ void Game::render() {
     }
 
     player->render(renderer);
+    renderBullets(renderer);
 
     SDL_RenderPresent(renderer);
 }
@@ -92,9 +94,16 @@ void Game::close() {
     for (auto* chicken : chickens) {
         delete chicken;
     }
+    chickens.clear();
+
+    for (Bullet* bullet : bullets) {
+        delete bullet;
+    }
+    bullets.clear();
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+
     SDL_Quit();
     IMG_Quit();
 }
@@ -109,10 +118,42 @@ void Game::run(){
         SDL_Delay(16);
     }
 }
-void Game::spawnChickens(int num) {
-    for (int i = 0; i < num; i++) {
-        int x = (i % 5) * 100 + 50;
-        int y = (i / 5) * 80 + 50;
+void Game::spawnChickens(int NUM_CHICKENS) {
+    chickens.clear();
+    int startX = (SCREEN_WIDTH - (NUM_CHICKENS * CHICKEN_SPACING)) / 2;
+    for (int i = 0; i < NUM_CHICKENS; i++) {
+        int x = startX + i * CHICKEN_SPACING;
+        int y = CHICKEN_Y_START;
         chickens.push_back(new Chicken(this, x, y));
+    }
+}
+void Game::shoot(bool isLaser) {
+    if (player) {
+        SDL_Texture* bulletTexture = loadTexture("assets/textures/bullet.jpg");
+        SDL_Texture* laserTexture = loadTexture("assets/textures/laser.jpg");
+
+        int playerX = player->getRect().x + 20;
+        int playerY = player->getRect().y;
+
+        if (isLaser) {
+            bullets.push_back(new LaserBullet(playerX, playerY, laserTexture));
+        } else {
+            bullets.push_back(new Bullet(playerX, playerY, bulletTexture, DEFAULT_BULLET_SPEED));
+        }
+    }
+}
+void Game::updateBullets() {
+    for (size_t i = 0; i < bullets.size(); i++) {
+        bullets[i]->update();
+        if (bullets[i]->isOffScreen()) {
+            delete bullets[i];
+            bullets.erase(bullets.begin() + i);
+            i--;
+        }
+    }
+}
+void Game::renderBullets(SDL_Renderer* renderer) {
+    for (auto bullet : bullets) {
+        bullet->render(renderer);
     }
 }

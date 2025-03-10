@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Chicken.h"
 #include "Bullet.h"
+#include "LaserBullet.h"
 #include "Utils.h"
 #include "Config.h"
 
@@ -27,7 +28,9 @@ public:
     bool isRunning();
 
     void spawnChickens(int num);
-    void spawnBullet();
+    void shoot(bool isLaser);
+    void updateBullets();
+    void renderBullets(SDL_Renderer* renderer);
 
     void handleCollisions();
     SDL_Texture* loadTexture(const string& filePath);
@@ -38,6 +41,7 @@ public:
     bool running ;
     Player* player;
     vector<Chicken*> chickens;
+    vector<Bullet*> bullets;
 };
 
 #endif
