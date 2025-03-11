@@ -79,8 +79,13 @@ void Game::update(){
     background->update();
     player->update();
 
-    for (auto* chicken : chickens) {
-        chicken->update();
+   for (size_t i = 0; i < chickens.size(); i++) {
+        chickens[i]->update();
+        if (chickens[i]->getIsDead()) {
+            delete chickens[i];
+            chickens.erase(chickens.begin() + i);
+            i--;
+        }
     }
 
      for (auto chicken : chickens) {
@@ -184,8 +189,7 @@ void Game::updateBullets() {
         for (int j = 0; j < chickens.size(); j++) {
             if (checkCollision(bullets[i]->getRect(), chickens[j]->getRect())) {
 
-                delete chickens[j];
-                chickens.erase(chickens.begin() + j);
+                chickens[j]->takeDamage(25);
 
                 delete bullets[i];
                 bullets.erase(bullets.begin() + i);

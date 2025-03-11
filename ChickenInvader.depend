@@ -7,14 +7,14 @@
 
 1741424921 source:d:\chickeninvader\powerup.cpp
 
-1741588359 source:d:\chickeninvader\chicken.cpp
+1741681111 source:d:\chickeninvader\chicken.cpp
 	"Chicken.h"
 	"Config.h"
 	"Game.h"
 	"Random.h"
 	<iostream>
 
-1741585839 d:\chickeninvader\chicken.h
+1741680396 d:\chickeninvader\chicken.h
 	<SDL.h>
 
 1741599040 d:\chickeninvader\utils.h
@@ -52,7 +52,7 @@
 1741594379 d:\chickeninvader\bullet.h
 	<SDL.h>
 
-1741602107 source:d:\chickeninvader\game.cpp
+1741680942 source:d:\chickeninvader\game.cpp
 	<bits/stdc++.h>
 	"Game.h"
 	"Config.h"

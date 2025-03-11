@@ -5,6 +5,7 @@
 #include <iostream>
 
 Chicken::Chicken(Game* game, int x, int y){
+     health = maxHealth;
     mPosX = x;
     mPosY = y;
 
@@ -24,6 +25,18 @@ Chicken::~Chicken() {
         texture = nullptr;
     }
 }
+
+void Chicken::takeDamage(int damage) {
+    health -= damage;
+    if (health <= 0) {
+        isDead = true;
+    }
+}
+
+bool Chicken::getIsDead(){
+    return isDead;
+}
+
 void Chicken::update() {
     mPosX += mVelX;
     mPosY += mVelY;
@@ -40,6 +53,9 @@ void Chicken::update() {
 }
 void Chicken::render(SDL_Renderer* renderer)
 {
+    SDL_Rect healthBar = {mPosX, mPosY - 10, rectChicken.w*health / maxHealth, 5};
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderFillRect(renderer, &healthBar);
     SDL_RenderCopy(renderer, texture, nullptr, &rectChicken);
 }
 SDL_Rect Chicken::getRect() const {
