@@ -65,12 +65,20 @@ void Game::handleEvents(){
             running = false;
         }
         player->handleInput(e,this);
-        if (e.type == SDL_KEYDOWN) {
-            if (e.key.keysym.sym == SDLK_SPACE) {
-            shoot(isLaser);
-            }
-            if (e.key.keysym.sym == SDLK_b) {
-            toggleBulletType();
+        if (e.type == SDL_KEYDOWN&& e.key.repeat == 0) {
+            switch (e.key.keysym.sym) {
+                case SDLK_ESCAPE:
+                    running = false;
+                    break;
+                case SDLK_SPACE:
+                    shoot(isLaser);
+                    break;
+                case SDLK_t:
+                    toggleAutoShoot();
+                    break;
+                case SDLK_b:
+                    toggleBulletType();
+                    break;
             }
         }
     }
@@ -94,6 +102,12 @@ void Game::update(){
             running = false;
             return;
         }
+    }
+    Uint32 currentTime = SDL_GetTicks();
+
+    if (autoShoot && currentTime - lastShotTime >= shootSpeed) {
+        shoot(isLaser);
+        lastShotTime = currentTime;
     }
 
     updateBullets();
@@ -161,19 +175,24 @@ void Game::shoot(bool isLaser) {
         SDL_Texture* bulletTexture = loadTexture("assets/textures/bullet.jpg");
         SDL_Texture* laserTexture = loadTexture("assets/textures/laser.jpg");
 
-        int playerX = player->getRect().x + 20;
+        int playerX = player->getRect().x + (Player_WIDTH - Bullet_WIDTH)/2;
         int playerY = player->getRect().y;
 
         if (isLaser) {
             bullets.push_back(new LaserBullet(playerX, playerY, laserTexture));
         } else {
-            bullets.push_back(new Bullet(playerX, playerY, bulletTexture, DEFAULT_BULLET_SPEED));
+            bullets.push_back(new NormalBullet(playerX, playerY, bulletTexture));
         }
     }
 }
 void Game::toggleBulletType() {
     isLaser = !isLaser;
+    shootSpeed = isLaser ? 100 : 300;
     cout << "Switched bullet type: " << (isLaser ? "Laser" : "Normal") << endl;
+}
+void Game::toggleAutoShoot() {
+    autoShoot = !autoShoot;
+     cout << "Switched shoot type: " << (autoShoot ? "AutoShoot" : "NormalShoot") << endl;
 }
 void Game::updateBullets() {
     for (size_t i = 0; i < bullets.size(); i++) {

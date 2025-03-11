@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1741590136 source:d:\chickeninvader\bullet.cpp
+1741686781 source:d:\chickeninvader\bullet.cpp
 	"Bullet.h"
 	"Config.h"
 
@@ -22,13 +22,13 @@
 
 1741595516 d:\chickeninvader\config.h
 
-1741596747 source:d:\chickeninvader\player.cpp
+1741682849 source:d:\chickeninvader\player.cpp
 	<bits/stdc++.h>
 	"Player.h"
 	"Game.h"
 	"Config.h"
 
-1741594403 d:\chickeninvader\player.h
+1741683459 d:\chickeninvader\player.h
 	<SDL.h>
 
 1741586055 source:d:\chickeninvader\main.cpp
@@ -37,22 +37,23 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1741602003 d:\chickeninvader\game.h
+1741688162 d:\chickeninvader\game.h
 	<SDL.h>
 	<SDL_image.h>
 	<bits/stdc++.h>
 	"Player.h"
 	"Chicken.h"
 	"Bullet.h"
+	"NormalBullet.h"
 	"LaserBullet.h"
 	"Utils.h"
 	"Config.h"
 	"Background.h"
 
-1741594379 d:\chickeninvader\bullet.h
+1741684499 d:\chickeninvader\bullet.h
 	<SDL.h>
 
-1741680942 source:d:\chickeninvader\game.cpp
+1741687113 source:d:\chickeninvader\game.cpp
 	<bits/stdc++.h>
 	"Game.h"
 	"Config.h"
@@ -70,7 +71,7 @@
 	"LaserBullet.h"
 	"Config.h"
 
-1741590404 d:\chickeninvader\laserbullet.h
+1741686692 d:\chickeninvader\laserbullet.h
 	"Bullet.h"
 
 1741602226 d:\chickeninvader\background.h
@@ -81,4 +82,7 @@
 	"Background.h"
 	"Game.h"
 	<bits/stdc++.h>
+
+1741686291 d:\chickeninvader\normalbullet.h
+	"Bullet.h"
 

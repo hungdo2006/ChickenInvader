@@ -1,9 +1,10 @@
 #include "Bullet.h"
 #include "Config.h"
-Bullet::Bullet(int x, int y, SDL_Texture* tex, int speed) {
+
+Bullet::Bullet(int x, int y, SDL_Texture* tex, int moveSpeed) {
     mPosX = x;
     mPosY = y;
-    mVelY = speed;
+    mVelY = moveSpeed;
     rectBullet = {mPosX, mPosY, Bullet_WIDTH, Bullet_HEIGHT};
     texture = tex;
 }
@@ -26,7 +27,9 @@ void Bullet::render(SDL_Renderer* renderer) {
 bool Bullet::isOffScreen() const {
     return mPosY + rectBullet.h < 0;
 }
-
+int Bullet::getShootSpeed(){
+    return shootSpeed;
+}
 SDL_Rect Bullet::getRect() const {
     return rectBullet;
 }

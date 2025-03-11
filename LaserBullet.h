@@ -5,8 +5,7 @@
 
 class LaserBullet : public Bullet {
 public:
-    LaserBullet(int x, int y, SDL_Texture* tex);
-    void update() override;
+     LaserBullet(int x, int y, SDL_Texture* tex) : Bullet(x, y, tex, -10) {}
 };
 
 #endif

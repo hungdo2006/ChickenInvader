@@ -60,6 +60,7 @@ void Player::update()
 
     rectPlayer.x = mPosX;
     rectPlayer.y = mPosY;
+
 }
 void Player::render(SDL_Renderer* renderer)
 {

@@ -45,6 +45,8 @@
 		<Unit filename="Game.h" />
 		<Unit filename="LaserBullet.cpp" />
 		<Unit filename="LaserBullet.h" />
+		<Unit filename="NormalBullet.cpp" />
+		<Unit filename="NormalBullet.h" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.h" />
 		<Unit filename="PowerUp.cpp" />

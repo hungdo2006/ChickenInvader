@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Chicken.h"
 #include "Bullet.h"
+#include "NormalBullet.h"
 #include "LaserBullet.h"
 #include "Utils.h"
 #include "Config.h"
@@ -31,6 +32,7 @@ public:
     void spawnChickens(int num);
     void shoot(bool isLaser);
     void toggleBulletType();
+    void toggleAutoShoot();
     void updateBullets();
     void renderBullets(SDL_Renderer* renderer);
 
@@ -46,6 +48,9 @@ public:
     vector<Bullet*> bullets;
     Background* background;
     bool isLaser = false;
+    int shootSpeed = 300;
+    Uint32 lastShotTime = 0;
+    bool autoShoot = false;
 };
 
 #endif
