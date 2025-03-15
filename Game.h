@@ -53,6 +53,7 @@ public:
     bool autoShoot = false;
     SDL_Texture* chickenTexture;
     SDL_Texture* eggTexture;
+    SDL_Texture* eggBrokenTexture;
 };
 
 #endif

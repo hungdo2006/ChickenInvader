@@ -8,11 +8,11 @@ class Game;
 class Chicken
 {
     public:
-		Chicken(Game* game, int x, int y, SDL_Texture* tex,  SDL_Texture* eggTexture);
+		Chicken(Game* game, int x, int y, SDL_Texture* tex,  SDL_Texture* eggTexture,SDL_Texture* eggBrokenTex);
 		~Chicken();
         void takeDamage(int damage);
         bool getIsDead();
-        void layEgg(SDL_Texture* eggTexture);
+        void layEgg(SDL_Texture* eggTexture,SDL_Texture* eggBrokenTex);
 		void update();
 		void render(SDL_Renderer* renderer);
 		SDL_Rect getRect() const;
@@ -29,5 +29,6 @@ class Chicken
 		int eggTimer;
         SDL_Texture* chickenTexture;
         SDL_Texture* eggTexture;
+        SDL_Texture* eggBrokenTexture;
 };
 #endif

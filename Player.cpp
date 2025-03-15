@@ -10,7 +10,7 @@ Player::Player(Game* game,int x, int y){
     mVelX = 0;
     mVelY = 0;
     rectPlayer = {mPosX, mPosY, 50, 50};
-    texture = game->loadTexture("assets/textures/player.jpg");
+    texture = game->loadTexture("assets/textures/player.png");
     if (!texture) {
         cout << "Fail to load player image!" << IMG_GetError() << endl;
     }

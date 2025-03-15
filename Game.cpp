@@ -46,7 +46,7 @@ bool Game::init(){
     background = new Background(this, "assets/textures/background.png", 2);
     chickenTexture = loadTexture("assets/textures/chicken.png");
     eggTexture = loadTexture("assets/textures/egg.png");
-
+    eggBrokenTexture = loadTexture("assets/textures/egg_broken.png");
     running = true;
 
     spawnChickens(NUM_CHICKENS);
@@ -93,13 +93,18 @@ void Game::update(){
         for (size_t j = 0; j < chickens[i]->getEggs().size(); j++) {
                 Egg* egg = chickens[i]->getEggs()[j];
             if (checkCollision(player->getRect(), egg->getRect())) {
-                if (player->takeDamage(10)) {
+                 if (!egg->getBroken()) {
+                    egg->onCollision();
+                    if (player->takeDamage(10)) {
                         cout << "Game Over!" << endl;
                         running = false;
                         return;
+                    }
                 }
-                chickens[i]->removeEgg(j);
-                j--;
+            }
+            if (egg->shouldRemove()){
+                    chickens[i]->removeEgg(j);
+                    j--;
             }
         }
         if (chickens[i]->getIsDead()) {
@@ -187,13 +192,13 @@ void Game::spawnChickens(int NUM_CHICKENS) {
     for (int i = 0; i < NUM_CHICKENS; i++) {
         int x = startX + i * CHICKEN_SPACING;
         int y = CHICKEN_Y_START;
-        chickens.push_back(new Chicken(this, x, y,chickenTexture,eggTexture));
+        chickens.push_back(new Chicken(this, x, y,chickenTexture,eggTexture,eggBrokenTexture));
     }
 }
 void Game::shoot(bool isLaser) {
     if (player) {
-        SDL_Texture* bulletTexture = loadTexture("assets/textures/bullet.jpg");
-        SDL_Texture* laserTexture = loadTexture("assets/textures/laser.jpg");
+        SDL_Texture* bulletTexture = loadTexture("assets/textures/bullet.png");
+        SDL_Texture* laserTexture = loadTexture("assets/textures/laser.png");
 
         int playerX = player->getRect().x + (Player_WIDTH - Bullet_WIDTH)/2;
         int playerY = player->getRect().y;

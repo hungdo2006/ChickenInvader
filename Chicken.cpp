@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-Chicken::Chicken(Game* game, int x, int y, SDL_Texture* texture,  SDL_Texture* eggTex){
+Chicken::Chicken(Game* game, int x, int y, SDL_Texture* texture,  SDL_Texture* eggTex,SDL_Texture* eggBrokenTex){
     health = maxHealth;
     mPosX = x;
     mPosY = y;
@@ -17,6 +17,7 @@ Chicken::Chicken(Game* game, int x, int y, SDL_Texture* texture,  SDL_Texture* e
 
    chickenTexture = texture;
    eggTexture = eggTex;
+   eggBrokenTexture = eggBrokenTex;
     eggTimer = Random(100,300);
     if (!chickenTexture&&eggTexture) {
         cout << "Fail to load chicken image!" << IMG_GetError() << endl;
@@ -50,7 +51,7 @@ void Chicken::update() {
 
     eggTimer--;
     if (eggTimer <= 0) {
-        layEgg(eggTexture);
+        layEgg(eggTexture,eggBrokenTexture);
         eggTimer = rand() % 200 + 100;
     }
     for (size_t i = 0; i < eggs.size(); i++) {
@@ -62,8 +63,8 @@ void Chicken::update() {
     }
 }
 
-void Chicken::layEgg(SDL_Texture* eggTexture) {
-     eggs.push_back(new Egg(mPosX + 10, mPosY + 50, eggTexture));
+void Chicken::layEgg(SDL_Texture* eggTexture,SDL_Texture* eggBrokenTex) {
+     eggs.push_back(new Egg(mPosX + 10, mPosY + 50, eggTexture,eggBrokenTex));
 }
 
 void Chicken::render(SDL_Renderer* renderer)

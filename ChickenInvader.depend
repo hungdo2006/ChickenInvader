@@ -7,7 +7,7 @@
 
 1741424921 source:d:\chickeninvader\powerup.cpp
 
-1742028485 source:d:\chickeninvader\chicken.cpp
+1742051315 source:d:\chickeninvader\chicken.cpp
 	"Chicken.h"
 	"Config.h"
 	"Game.h"
@@ -15,7 +15,7 @@
 	<iostream>
 	<vector>
 
-1742028485 d:\chickeninvader\chicken.h
+1742051410 d:\chickeninvader\chicken.h
 	<SDL.h>
 	<vector>
 	"Egg.h"
@@ -25,7 +25,7 @@
 
 1741595516 d:\chickeninvader\config.h
 
-1742030450 source:d:\chickeninvader\player.cpp
+1742048591 source:d:\chickeninvader\player.cpp
 	<bits/stdc++.h>
 	"Player.h"
 	"Game.h"
@@ -40,7 +40,7 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1742028485 d:\chickeninvader\game.h
+1742050573 d:\chickeninvader\game.h
 	<SDL.h>
 	<SDL_image.h>
 	<bits/stdc++.h>
@@ -56,7 +56,7 @@
 1741961825 d:\chickeninvader\bullet.h
 	<SDL.h>
 
-1742030460 source:d:\chickeninvader\game.cpp
+1742052055 source:d:\chickeninvader\game.cpp
 	<bits/stdc++.h>
 	"Game.h"
 	"Config.h"
@@ -89,10 +89,10 @@
 1741961825 d:\chickeninvader\normalbullet.h
 	"Bullet.h"
 
-1742028485 d:\chickeninvader\egg.h
+1742052012 d:\chickeninvader\egg.h
 	<SDL.h>
 
-1742028485 source:d:\chickeninvader\egg.cpp
+1742052033 source:d:\chickeninvader\egg.cpp
 	"Egg.h"
 	"Config.h"
 	<iostream>
