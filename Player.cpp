@@ -15,11 +15,8 @@ Player::Player(Game* game,int x, int y){
     }
 }
 Player::~Player(){
-   if (texture) {
-    SDL_DestroyTexture(texture);
-    texture = nullptr;
-    }
 }
+
 void Player::handleInput( SDL_Event& e, Game* game )
 {
      bool isLaser = false;

@@ -39,13 +39,13 @@
 		<Unit filename="Chicken.cpp" />
 		<Unit filename="Chicken.h" />
 		<Unit filename="Config.h" />
+		<Unit filename="Egg.cpp" />
+		<Unit filename="Egg.h" />
 		<Unit filename="Explosion.cpp" />
 		<Unit filename="Explosion.h" />
 		<Unit filename="Game.cpp" />
 		<Unit filename="Game.h" />
-		<Unit filename="LaserBullet.cpp" />
 		<Unit filename="LaserBullet.h" />
-		<Unit filename="NormalBullet.cpp" />
 		<Unit filename="NormalBullet.h" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.h" />

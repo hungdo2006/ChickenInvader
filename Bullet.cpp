@@ -10,9 +10,6 @@ Bullet::Bullet(int x, int y, SDL_Texture* tex, int moveSpeed) {
 }
 
 Bullet::~Bullet() {
-    if (texture) {
-        SDL_DestroyTexture(texture);
-    }
 }
 
 void Bullet::update() {

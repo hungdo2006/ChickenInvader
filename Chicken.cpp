@@ -3,9 +3,10 @@
 #include "Game.h"
 #include "Random.h"
 #include <iostream>
+#include <vector>
 
-Chicken::Chicken(Game* game, int x, int y){
-     health = maxHealth;
+Chicken::Chicken(Game* game, int x, int y, SDL_Texture* texture,  SDL_Texture* eggTex){
+    health = maxHealth;
     mPosX = x;
     mPosY = y;
 
@@ -14,15 +15,11 @@ Chicken::Chicken(Game* game, int x, int y){
 
     rectChicken = {mPosX, mPosY, 50, 50};
 
-    texture = game->loadTexture("assets/textures/chicken.png");
-    if (!texture) {
+   chickenTexture = texture;
+   eggTexture = eggTex;
+    eggTimer = Random(100,300);
+    if (!chickenTexture&&eggTexture) {
         cout << "Fail to load chicken image!" << IMG_GetError() << endl;
-    }
-}
-Chicken::~Chicken() {
-    if (texture) {
-        SDL_DestroyTexture(texture);
-        texture = nullptr;
     }
 }
 
@@ -50,14 +47,52 @@ void Chicken::update() {
     }
     rectChicken.x = mPosX;
     rectChicken.y = mPosY;
+
+    eggTimer--;
+    if (eggTimer <= 0) {
+        layEgg(eggTexture);
+        eggTimer = rand() % 200 + 100;
+    }
+    for (size_t i = 0; i < eggs.size(); i++) {
+        eggs[i]->update();
+        if (eggs[i]->isOffScreen()) {
+            eggs.erase(eggs.begin() + i);
+            i--;
+        }
+    }
 }
+
+void Chicken::layEgg(SDL_Texture* eggTexture) {
+     eggs.push_back(new Egg(mPosX + 10, mPosY + 50, eggTexture));
+}
+
 void Chicken::render(SDL_Renderer* renderer)
 {
     SDL_Rect healthBar = {mPosX, mPosY - 10, rectChicken.w*health / maxHealth, 5};
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderFillRect(renderer, &healthBar);
-    SDL_RenderCopy(renderer, texture, nullptr, &rectChicken);
+    SDL_RenderCopy(renderer, chickenTexture, nullptr, &rectChicken);
+    for (Egg* egg : eggs) {
+        egg->render(renderer);
+    }
 }
 SDL_Rect Chicken::getRect() const {
     return rectChicken;
+}
+
+void Chicken::removeEgg(int index) {
+    if (index >= 0 && index < eggs.size()) {
+        delete eggs[index];
+        eggs.erase(eggs.begin() + index);
+    }
+}
+
+vector<Egg*>& Chicken::getEggs() {
+    return eggs;
+}
+Chicken::~Chicken(){
+    for (Egg* egg : eggs) {
+        delete egg;
+    }
+    eggs.clear();
 }

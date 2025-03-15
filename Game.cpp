@@ -44,6 +44,8 @@ bool Game::init(){
     }
     player = new Player(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
     background = new Background(this, "assets/textures/background.png", 2);
+    chickenTexture = loadTexture("assets/textures/chicken.png");
+    eggTexture = loadTexture("assets/textures/egg.png");
 
     running = true;
 
@@ -86,10 +88,22 @@ void Game::handleEvents(){
 void Game::update(){
     background->update();
     player->update();
-
    for (size_t i = 0; i < chickens.size(); i++) {
         chickens[i]->update();
+        for (size_t j = 0; j < chickens[i]->getEggs().size(); j++) {
+                Egg* egg = chickens[i]->getEggs()[j];
+            if (checkCollision(player->getRect(), egg->getRect())) {
+               /* player->takeDamage(10);*/
+                chickens[i]->removeEgg(j);
+                j--;
+            }
+        }
         if (chickens[i]->getIsDead()) {
+            vector<Egg*>& eggs = chickens[i]->getEggs();
+            for (size_t j = 0; j < eggs.size(); j++) {
+                delete eggs[j];
+            }
+            eggs.clear();
             delete chickens[i];
             chickens.erase(chickens.begin() + i);
             i--;
@@ -144,6 +158,8 @@ void Game::close() {
 
     delete background;
 
+    SDL_DestroyTexture(chickenTexture);
+    SDL_DestroyTexture(eggTexture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
@@ -167,7 +183,7 @@ void Game::spawnChickens(int NUM_CHICKENS) {
     for (int i = 0; i < NUM_CHICKENS; i++) {
         int x = startX + i * CHICKEN_SPACING;
         int y = CHICKEN_Y_START;
-        chickens.push_back(new Chicken(this, x, y));
+        chickens.push_back(new Chicken(this, x, y,chickenTexture,eggTexture));
     }
 }
 void Game::shoot(bool isLaser) {

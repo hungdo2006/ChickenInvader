@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1741686781 source:d:\chickeninvader\bullet.cpp
+1741965641 source:d:\chickeninvader\bullet.cpp
 	"Bullet.h"
 	"Config.h"
 
@@ -7,28 +7,31 @@
 
 1741424921 source:d:\chickeninvader\powerup.cpp
 
-1741681111 source:d:\chickeninvader\chicken.cpp
+1742026071 source:d:\chickeninvader\chicken.cpp
 	"Chicken.h"
 	"Config.h"
 	"Game.h"
 	"Random.h"
 	<iostream>
+	<vector>
 
-1741680396 d:\chickeninvader\chicken.h
+1742025495 d:\chickeninvader\chicken.h
 	<SDL.h>
+	<vector>
+	"Egg.h"
 
 1741599040 d:\chickeninvader\utils.h
 	<SDL.h>
 
 1741595516 d:\chickeninvader\config.h
 
-1741682849 source:d:\chickeninvader\player.cpp
+1741965599 source:d:\chickeninvader\player.cpp
 	<bits/stdc++.h>
 	"Player.h"
 	"Game.h"
 	"Config.h"
 
-1741683459 d:\chickeninvader\player.h
+1741961825 d:\chickeninvader\player.h
 	<SDL.h>
 
 1741586055 source:d:\chickeninvader\main.cpp
@@ -37,7 +40,7 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1741688162 d:\chickeninvader\game.h
+1742025128 d:\chickeninvader\game.h
 	<SDL.h>
 	<SDL_image.h>
 	<bits/stdc++.h>
@@ -50,10 +53,10 @@
 	"Config.h"
 	"Background.h"
 
-1741684499 d:\chickeninvader\bullet.h
+1741961825 d:\chickeninvader\bullet.h
 	<SDL.h>
 
-1741687113 source:d:\chickeninvader\game.cpp
+1742026037 source:d:\chickeninvader\game.cpp
 	<bits/stdc++.h>
 	"Game.h"
 	"Config.h"
@@ -71,7 +74,7 @@
 	"LaserBullet.h"
 	"Config.h"
 
-1741686692 d:\chickeninvader\laserbullet.h
+1741961825 d:\chickeninvader\laserbullet.h
 	"Bullet.h"
 
 1741602226 d:\chickeninvader\background.h
@@ -83,6 +86,14 @@
 	"Game.h"
 	<bits/stdc++.h>
 
-1741686291 d:\chickeninvader\normalbullet.h
+1741961825 d:\chickeninvader\normalbullet.h
 	"Bullet.h"
+
+1742023172 d:\chickeninvader\egg.h
+	<SDL.h>
+
+1741967369 source:d:\chickeninvader\egg.cpp
+	"Egg.h"
+	"Config.h"
+	<iostream>
 

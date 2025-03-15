@@ -51,6 +51,8 @@ public:
     int shootSpeed = 300;
     Uint32 lastShotTime = 0;
     bool autoShoot = false;
+    SDL_Texture* chickenTexture;
+    SDL_Texture* eggTexture;
 };
 
 #endif
