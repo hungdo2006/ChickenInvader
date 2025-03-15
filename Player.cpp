@@ -4,6 +4,7 @@
 #include "Config.h"
 
 Player::Player(Game* game,int x, int y){
+    health = maxHealth;
     mPosX = x;
     mPosY = y;
     mVelX = 0;
@@ -15,6 +16,15 @@ Player::Player(Game* game,int x, int y){
     }
 }
 Player::~Player(){
+}
+
+bool Player::takeDamage(int damage) {
+    health -= damage;
+    if (health <= 0) {
+        health = 0;
+        return true;
+    }
+    return false;
 }
 
 void Player::handleInput( SDL_Event& e, Game* game )
@@ -61,6 +71,15 @@ void Player::update()
 }
 void Player::render(SDL_Renderer* renderer)
 {
+    SDL_Rect healthBarBg = {mPosX, mPosY - 10,rectPlayer.w, 5};
+    SDL_Rect healthBar = {mPosX, mPosY - 10, rectPlayer.w*health / maxHealth, 5};
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderFillRect(renderer, &healthBarBg);
+
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderFillRect(renderer, &healthBar);
+
     SDL_RenderCopy(renderer, texture, nullptr, &rectPlayer);
 }
 SDL_Rect Player::getRect() const {

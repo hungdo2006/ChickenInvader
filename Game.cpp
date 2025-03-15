@@ -93,7 +93,11 @@ void Game::update(){
         for (size_t j = 0; j < chickens[i]->getEggs().size(); j++) {
                 Egg* egg = chickens[i]->getEggs()[j];
             if (checkCollision(player->getRect(), egg->getRect())) {
-               /* player->takeDamage(10);*/
+                if (player->takeDamage(10)) {
+                        cout << "Game Over!" << endl;
+                        running = false;
+                        return;
+                }
                 chickens[i]->removeEgg(j);
                 j--;
             }
@@ -112,7 +116,7 @@ void Game::update(){
 
      for (auto chicken : chickens) {
         if (checkCollision(player->getRect(), chicken->getRect())) {
-        cout << "Game Over!" << endl;
+            cout << "Game Over!" << endl;
             running = false;
             return;
         }
