@@ -49,6 +49,7 @@ bool Game::init(){
     gameOverTexture = loadTexture("assets/textures/game_over.jpg");
     restartButtonTexture = loadTexture("assets/textures/restart_button.jpg");
     restartButtonRect = {300, 450, 200, 100};
+    victoryTexture = loadTexture("assets/textures/victory.jpg");
 
     player = new Player(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2  + 50);
     background = new Background(this, "assets/textures/background.png", 2);
@@ -88,6 +89,13 @@ void Game::handleEvents(){
             restartGame();
             }
         }
+        if (gameState == STATE_VICTORY && e.type == SDL_MOUSEBUTTONDOWN) {
+        int x = e.button.x, y = e.button.y;
+        if (x >= restartButtonRect.x && x <= restartButtonRect.x + restartButtonRect.w &&
+            y >= restartButtonRect.y && y <= restartButtonRect.y + restartButtonRect.h) {
+            restartGame();
+            }
+        }
         player->handleInput(e,this);
         if (e.type == SDL_KEYDOWN&& e.key.repeat == 0) {
             switch (e.key.keysym.sym) {
@@ -109,6 +117,10 @@ void Game::handleEvents(){
 }
 void Game::update(){
     if (gameState == GAME_OVER) return;
+    if (chickens.empty()) {
+    gameState = STATE_VICTORY;
+    return;
+    }
     background->update();
     player->update();
    for (size_t i = 0; i < chickens.size(); i++) {
@@ -176,7 +188,11 @@ void Game::render() {
     }else if (gameState == GAME_OVER) {
         SDL_RenderCopy(renderer, gameOverTexture, NULL, NULL);
         SDL_RenderCopy(renderer, restartButtonTexture, NULL, &restartButtonRect);
+    }else if (gameState == STATE_VICTORY) {
+        SDL_RenderCopy(renderer, victoryTexture, NULL, NULL);
+        SDL_RenderCopy(renderer, restartButtonTexture, NULL, &restartButtonRect);
     }
+
     SDL_RenderPresent(renderer);
 }
 
@@ -194,7 +210,11 @@ void Game::close() {
     bullets.clear();
 
     delete background;
-
+    SDL_DestroyTexture(restartButtonTexture);
+    SDL_DestroyTexture(menuTexture);
+    SDL_DestroyTexture(startButtonTexture);
+     SDL_DestroyTexture(gameOverTexture);
+    SDL_DestroyTexture(victoryTexture);
     SDL_DestroyTexture(chickenTexture);
     SDL_DestroyTexture(eggTexture);
     SDL_DestroyRenderer(renderer);

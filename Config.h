@@ -16,6 +16,6 @@ const int DEFAULT_BULLET_SPEED  = -10;
 const int LASER_BULLET_SPEED = -20;
 const int Bullet_WIDTH = 40;
 const int Bullet_HEIGHT = 40;
-enum GameState { MENU, PLAYING, GAME_OVER };
+enum GameState { MENU, PLAYING, GAME_OVER, STATE_VICTORY};
 
 #endif

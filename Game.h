@@ -61,6 +61,7 @@ public:
     SDL_Texture* gameOverTexture;
     SDL_Texture* restartButtonTexture;
     SDL_Rect restartButtonRect;
+    SDL_Texture* victoryTexture;
 };
 
 #endif
