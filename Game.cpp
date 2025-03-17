@@ -13,6 +13,7 @@ Game::~Game() {
 }
 bool Game::init(){
     bool success = true;
+    gameState = MENU;
     if(SDL_Init(SDL_INIT_VIDEO < 0)){
         cout << "SDL could not initialize! SDL Error: " << SDL_GetError() << endl;
         success = false;
@@ -42,7 +43,14 @@ bool Game::init(){
             }
         }
     }
-    player = new Player(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+    menuTexture = loadTexture("assets/textures/menu.jpg");
+    startButtonTexture = loadTexture("assets/textures/start_button.png");
+    startButtonRect = {200, 300, 200, 100};
+    gameOverTexture = loadTexture("assets/textures/game_over.jpg");
+    restartButtonTexture = loadTexture("assets/textures/restart_button.jpg");
+    restartButtonRect = {300, 450, 200, 100};
+
+    player = new Player(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2  + 50);
     background = new Background(this, "assets/textures/background.png", 2);
     chickenTexture = loadTexture("assets/textures/chicken.png");
     eggTexture = loadTexture("assets/textures/egg.png");
@@ -66,6 +74,20 @@ void Game::handleEvents(){
         if(e.type == SDL_QUIT){
             running = false;
         }
+        if (gameState == MENU && e.type == SDL_MOUSEBUTTONDOWN) {
+        int x = e.button.x, y = e.button.y;
+        if (x >= startButtonRect.x && x <= startButtonRect.x + startButtonRect.w &&
+            y >= startButtonRect.y && y <= startButtonRect.y + startButtonRect.h) {
+            gameState = PLAYING;
+            }
+        }
+        if (gameState == GAME_OVER && e.type == SDL_MOUSEBUTTONDOWN) {
+        int x = e.button.x, y = e.button.y;
+        if (x >= restartButtonRect.x && x <= restartButtonRect.x + restartButtonRect.w &&
+            y >= restartButtonRect.y && y <= restartButtonRect.y + restartButtonRect.h) {
+            restartGame();
+            }
+        }
         player->handleInput(e,this);
         if (e.type == SDL_KEYDOWN&& e.key.repeat == 0) {
             switch (e.key.keysym.sym) {
@@ -86,6 +108,7 @@ void Game::handleEvents(){
     }
 }
 void Game::update(){
+    if (gameState == GAME_OVER) return;
     background->update();
     player->update();
    for (size_t i = 0; i < chickens.size(); i++) {
@@ -97,8 +120,7 @@ void Game::update(){
                     egg->onCollision();
                     if (player->takeDamage(10)) {
                         cout << "Game Over!" << endl;
-                        running = false;
-                        return;
+                        setGameState(GAME_OVER);
                     }
                 }
             }
@@ -122,8 +144,7 @@ void Game::update(){
      for (auto chicken : chickens) {
         if (checkCollision(player->getRect(), chicken->getRect())) {
             cout << "Game Over!" << endl;
-            running = false;
-            return;
+            setGameState(GAME_OVER);
         }
     }
     Uint32 currentTime = SDL_GetTicks();
@@ -140,15 +161,22 @@ void Game::render() {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
-    background->render(renderer);
+     if (gameState == MENU) {
+            SDL_RenderCopy(renderer, menuTexture, NULL, NULL);
+            SDL_RenderCopy(renderer, startButtonTexture, NULL, &startButtonRect);
+    } else if (gameState == PLAYING) {
+            background->render(renderer);
 
-    for (auto* chicken : chickens){
-        chicken->render(renderer);
+            for (auto* chicken : chickens){
+                chicken->render(renderer);
+            }
+
+            player->render(renderer);
+            renderBullets(renderer);
+    }else if (gameState == GAME_OVER) {
+        SDL_RenderCopy(renderer, gameOverTexture, NULL, NULL);
+        SDL_RenderCopy(renderer, restartButtonTexture, NULL, &restartButtonRect);
     }
-
-    player->render(renderer);
-    renderBullets(renderer);
-
     SDL_RenderPresent(renderer);
 }
 
@@ -249,3 +277,13 @@ void Game::renderBullets(SDL_Renderer* renderer) {
         bullet->render(renderer);
     }
 }
+void Game::setGameState(GameState state) {
+    gameState = state;
+}
+void Game::restartGame() {
+    player->reset();
+    chickens.clear();
+    spawnChickens(NUM_CHICKENS);
+    gameState = PLAYING;
+}
+

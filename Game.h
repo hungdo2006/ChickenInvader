@@ -28,14 +28,14 @@ public:
     void render();
     void close();
     bool isRunning();
-
+    void restartGame();
     void spawnChickens(int num);
     void shoot(bool isLaser);
     void toggleBulletType();
     void toggleAutoShoot();
     void updateBullets();
     void renderBullets(SDL_Renderer* renderer);
-
+    void setGameState(GameState state);
     void handleCollisions();
     SDL_Texture* loadTexture(const string& filePath);
 
@@ -43,6 +43,7 @@ public:
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool running ;
+    GameState gameState;
     Player* player;
     vector<Chicken*> chickens;
     vector<Bullet*> bullets;
@@ -54,6 +55,12 @@ public:
     SDL_Texture* chickenTexture;
     SDL_Texture* eggTexture;
     SDL_Texture* eggBrokenTexture;
+    SDL_Texture* menuTexture;
+    SDL_Texture* startButtonTexture;
+    SDL_Rect startButtonRect;
+    SDL_Texture* gameOverTexture;
+    SDL_Texture* restartButtonTexture;
+    SDL_Rect restartButtonRect;
 };
 
 #endif

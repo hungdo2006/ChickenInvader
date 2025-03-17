@@ -85,4 +85,10 @@ void Player::render(SDL_Renderer* renderer)
 SDL_Rect Player::getRect() const {
     return rectPlayer;
 }
+void Player::reset() {
+    mPosX = SCREEN_WIDTH/2;
+    mPosY = SCREEN_HEIGHT/2  + 50;
+    health = maxHealth;
+}
+
 

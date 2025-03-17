@@ -7,7 +7,8 @@ class Player
     public:
 		Player(Game* game,int x, int y);
 		~Player();
-		 bool takeDamage(int damage);
+		void reset();
+        bool takeDamage(int damage);
 		void handleInput( SDL_Event& e , Game* game);
 		void update();
 		void render(SDL_Renderer* renderer);
