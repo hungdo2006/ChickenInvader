@@ -1,5 +1,4 @@
 #include "Chicken.h"
-#include "Config.h"
 #include "Game.h"
 #include "Random.h"
 #include <iostream>
@@ -13,11 +12,11 @@ Chicken::Chicken(Game* game, int x, int y, SDL_Texture* texture,  SDL_Texture* e
     mVelX = Random(-3, 3);
     mVelY = Random(1, 3);
 
-    rectChicken = {mPosX, mPosY, 50, 50};
+    rectChicken = {mPosX, mPosY, Chicken_WIDTH, Chicken_HEIGHT};
 
-   chickenTexture = texture;
-   eggTexture = eggTex;
-   eggBrokenTexture = eggBrokenTex;
+    chickenTexture = texture;
+    eggTexture = eggTex;
+    eggBrokenTexture = eggBrokenTex;
     eggTimer = Random(100,300);
     if (!chickenTexture&&eggTexture) {
         cout << "Fail to load chicken image!" << IMG_GetError() << endl;
@@ -52,7 +51,7 @@ void Chicken::update() {
     eggTimer--;
     if (eggTimer <= 0) {
         layEgg(eggTexture,eggBrokenTexture);
-        eggTimer = rand() % 200 + 100;
+        eggTimer = Random(100,300);
     }
     for (size_t i = 0; i < eggs.size(); i++) {
         eggs[i]->update();
@@ -64,12 +63,12 @@ void Chicken::update() {
 }
 
 void Chicken::layEgg(SDL_Texture* eggTexture,SDL_Texture* eggBrokenTex) {
-     eggs.push_back(new Egg(mPosX + 10, mPosY + 50, eggTexture,eggBrokenTex));
+     eggs.push_back(new Egg(mPosX + (Chicken_WIDTH/2), mPosY + Chicken_HEIGHT, eggTexture,eggBrokenTex));
 }
 
 void Chicken::render(SDL_Renderer* renderer)
 {
-    SDL_Rect healthBar = {mPosX, mPosY - 10, rectChicken.w*health / maxHealth, 5};
+    SDL_Rect healthBar = {mPosX, mPosY - 10, rectChicken.w*health / maxHealth, Chicken_HEALTH_BAR_WIDTH};
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderFillRect(renderer, &healthBar);
     SDL_RenderCopy(renderer, chickenTexture, nullptr, &rectChicken);

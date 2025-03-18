@@ -1,5 +1,4 @@
 #include "Bullet.h"
-#include "Config.h"
 
 Bullet::Bullet(int x, int y, SDL_Texture* tex, int moveSpeed) {
     mPosX = x;

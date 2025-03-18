@@ -1,6 +1,6 @@
 #include "Egg.h"
-#include "Config.h"
 #include <iostream>
+
 using  namespace std;
 Egg::Egg(int x, int y, SDL_Texture* texture,SDL_Texture* brokenTex) {
     mPosX = x;
@@ -10,7 +10,7 @@ Egg::Egg(int x, int y, SDL_Texture* texture,SDL_Texture* brokenTex) {
     isBroken = false;
     breakTime = 0;
     toBeRemoved = false;
-    rectEgg = {mPosX, mPosY, 20, 25};
+    rectEgg = {mPosX, mPosY, Egg_WIDTH, Egg_HEIGHT};
 }
 
 Egg::~Egg() {}

@@ -49,6 +49,7 @@ public:
     void handleCollisions();
     SDL_Texture* loadTexture(const string& filePath);
     void spawnBuff();
+
     private:
     SDL_Window* window;
     SDL_Renderer* renderer;
@@ -64,6 +65,7 @@ public:
     bool autoShoot = false;
     SDL_Texture* chickenTexture;
     SDL_Texture* eggTexture;
+    SDL_Texture* laserTexture;
     SDL_Texture* eggBrokenTexture;
     SDL_Texture* menuTexture;
     SDL_Texture* startButtonTexture;

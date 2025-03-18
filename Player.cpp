@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 #include "Player.h"
 #include "Game.h"
-#include "Config.h"
 
 Player::Player(Game* game,int x, int y){
     health = maxHealth;
@@ -9,7 +8,7 @@ Player::Player(Game* game,int x, int y){
     mPosY = y;
     mVelX = 0;
     mVelY = 0;
-    rectPlayer = {mPosX, mPosY, 50, 50};
+    rectPlayer = {mPosX, mPosY, Player_WIDTH, Player_HEIGHT};
     texture = game->loadTexture("assets/textures/player.png");
     if (!texture) {
         cout << "Fail to load player image!" << IMG_GetError() << endl;
@@ -76,8 +75,8 @@ void Player::update()
 }
 void Player::render(SDL_Renderer* renderer)
 {
-    SDL_Rect healthBarBg = {mPosX, mPosY - 10,rectPlayer.w, 5};
-    SDL_Rect healthBar = {mPosX, mPosY - 10, rectPlayer.w*health / maxHealth, 5};
+    SDL_Rect healthBarBg = {mPosX, mPosY - 10,rectPlayer.w, Player_HEALTH_BAR_WIDTH};
+    SDL_Rect healthBar = {mPosX, mPosY - 10, rectPlayer.w*health / maxHealth, Player_HEALTH_BAR_WIDTH};
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderFillRect(renderer, &healthBarBg);

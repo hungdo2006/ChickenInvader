@@ -1,7 +1,8 @@
 #ifndef EGG_H
 #define EGG_H
-
 #include <SDL.h>
+#include "Config.h"
+
 class Chicken;
 class Egg {
 public:
@@ -16,7 +17,7 @@ public:
     bool getBroken();
 private:
     int mPosX, mPosY;
-    int mSpeed = 3;
+    int mSpeed = Egg_SPEED;
     SDL_Texture* eggTexture;
     SDL_Rect rectEgg;
     SDL_Texture* brokenTexture;

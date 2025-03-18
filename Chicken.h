@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <vector>
 #include "Egg.h"
+#include "Config.h"
 using namespace std;
 class Game;
 class Chicken
@@ -20,7 +21,7 @@ class Chicken
         void removeEgg(int index);
     private:
         int health;
-        const int maxHealth = 100;
+        const int maxHealth = Chicken_MAX_HEALTH;
         bool isDead = false;
 		int mPosX, mPosY;
 		int mVelX, mVelY;

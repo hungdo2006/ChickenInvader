@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <SDL.h>
+#include "Config.h"
 class Game;
 class Player
 {
@@ -16,7 +17,7 @@ class Player
 		SDL_Rect getRect() const;
     private:
         int health;
-        const int maxHealth = 100;
+        const int maxHealth = Player_MAX_HEALTH;
 		int mPosX, mPosY;
 		int mVelX, mVelY;
 		SDL_Rect rectPlayer;

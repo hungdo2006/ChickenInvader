@@ -52,13 +52,14 @@ bool Game::init(){
     victoryTexture = loadTexture("assets/textures/victory.jpg");
     healBuffTexture = loadTexture("assets/textures/heal_buff.png");
     fireRateBuffTexture = loadTexture("assets/textures/restart_button.jpg");
-    player = new Player(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2  + 50);
     background = new Background(this, "assets/textures/background.png", 2);
     chickenTexture = loadTexture("assets/textures/chicken.png");
+    laserTexture = loadTexture("assets/textures/laser.png");
     eggTexture = loadTexture("assets/textures/egg.png");
     eggBrokenTexture = loadTexture("assets/textures/egg_broken.png");
-    running = true;
 
+    running = true;
+    player = new Player(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2  + 50);
     spawnChickens(NUM_CHICKENS);
 
     return success;
@@ -174,15 +175,15 @@ void Game::update(){
             continue;
         }
 
-        if (SDL_GetTicks() - buffs[i].spawnTime > 5000) {
+        if (SDL_GetTicks() - buffs[i].spawnTime > TIME_SPAWN_BUFF) {
             buffs.erase(buffs.begin() + i);
             i--;
             continue;
         }
 
-        if (checkCollision(player->getRect(), {buffs[i].x, buffs[i].y, 40, 40})) {
+        if (checkCollision(player->getRect(), {buffs[i].x, buffs[i].y, Buff_WIDTH, Buff_HEIGHT})) {
                 if (buffs[i].isHeal) {
-                        player->heal(20);
+                        player->heal(Player_HEALING);
                 } else {
                         fireRateBuffActive = true;
                         fireRateBuffStartTime = SDL_GetTicks();
@@ -195,7 +196,7 @@ void Game::update(){
                 buffs.erase(buffs.begin() + i);
                 i--;
         }
-        if (fireRateBuffActive && SDL_GetTicks() - fireRateBuffStartTime >= 5000) {
+        if (fireRateBuffActive && SDL_GetTicks() - fireRateBuffStartTime >= Buff_DURATION) {
                 fireRateBuffActive = false;
                 shootSpeed = BASE_SHOOT_SPEED;
                 fireRateMultiplier = 1.0;
@@ -220,7 +221,7 @@ void Game::render() {
             player->render(renderer);
             renderBullets(renderer);
             for (auto& buff : buffs) {
-                SDL_Rect dst = {buff.x, buff.y, 40, 40};
+                SDL_Rect dst = {buff.x, buff.y, Buff_WIDTH, Buff_HEIGHT};
                 SDL_RenderCopy(renderer, buff.texture, NULL, &dst);
             }
     }else if (gameState == GAME_OVER) {
@@ -274,23 +275,18 @@ void Game::run(){
 }
 void Game::spawnChickens(int NUM_CHICKENS) {
     chickens.clear();
-    int startX = (SCREEN_WIDTH - (NUM_CHICKENS * CHICKEN_SPACING)) / 2;
+    int startX = (SCREEN_WIDTH - (NUM_CHICKENS * Chicken_SPACING)) / 2;
     for (int i = 0; i < NUM_CHICKENS; i++) {
-        int x = startX + i * CHICKEN_SPACING;
-        int y = CHICKEN_Y_START;
+        int x = startX + i * Chicken_SPACING;
+        int y = Chicken_Y_START;
         chickens.push_back(new Chicken(this, x, y,chickenTexture,eggTexture,eggBrokenTexture));
     }
 }
 void Game::shoot(bool isLaser) {
     if (player) {
-        SDL_Texture* bulletTexture = loadTexture("assets/textures/bullet.png");
-        SDL_Texture* laserTexture = loadTexture("assets/textures/laser.png");
-
         int playerX = player->getRect().x + (Player_WIDTH - Bullet_WIDTH)/2;
         int playerY = player->getRect().y;
-
         bullets.push_back(new LaserBullet(playerX, playerY, laserTexture));
-
     }
 }
 void Game::toggleAutoShoot() {
@@ -311,7 +307,7 @@ void Game::updateBullets() {
         for (int j = 0; j < chickens.size(); j++) {
             if (checkCollision(bullets[i]->getRect(), chickens[j]->getRect())) {
 
-                chickens[j]->takeDamage(1);
+                chickens[j]->takeDamage(Chicken_TAKE_DAMAGE);
 
                 delete bullets[i];
                 bullets.erase(bullets.begin() + i);
@@ -335,11 +331,11 @@ void Game::restartGame() {
     chickens.clear();
     spawnChickens(NUM_CHICKENS);
     fireRateBuffActive = false;
-    shootSpeed = 200;
+    shootSpeed = BASE_SHOOT_SPEED;
     gameState = PLAYING;
 }
 void Game::spawnBuff() {
-    if (Random(0, 100) < 1) {
+    if (Random(0, 100) < SPAWN_RATE) {
         Buff buff;
         buff.x = Random(0, SCREEN_WIDTH - 40);
         buff.y = Random(50, SCREEN_HEIGHT / 2);
