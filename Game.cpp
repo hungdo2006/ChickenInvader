@@ -50,6 +50,7 @@ bool Game::init(){
     restartButtonTexture = loadTexture("assets/textures/restart_button.jpg");
     restartButtonRect = {300, 450, 200, 100};
     victoryTexture = loadTexture("assets/textures/victory.jpg");
+    healBuffTexture = loadTexture("assets/textures/heal_buff.png");
 
     player = new Player(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2  + 50);
     background = new Background(this, "assets/textures/background.png", 2);
@@ -108,9 +109,6 @@ void Game::handleEvents(){
                 case SDLK_t:
                     toggleAutoShoot();
                     break;
-                case SDLK_b:
-                    toggleBulletType();
-                    break;
             }
         }
     }
@@ -167,6 +165,27 @@ void Game::update(){
     }
 
     updateBullets();
+    spawnBuff();
+    for (size_t i = 0; i < buffs.size(); i++) {
+        buffs[i].y += buffs[i].fallSpeed;
+        if (buffs[i].y > SCREEN_HEIGHT) {
+            buffs.erase(buffs.begin() + i);
+            i--;
+            continue;
+        }
+
+        if (SDL_GetTicks() - buffs[i].spawnTime > 5000) {
+            buffs.erase(buffs.begin() + i);
+            i--;
+            continue;
+        }
+
+        if (checkCollision(player->getRect(), {buffs[i].x, buffs[i].y, 40, 40})) {
+            player->heal(20);
+            buffs.erase(buffs.begin() + i);
+            i--;
+            }
+        }
 }
 void Game::render() {
 
@@ -185,6 +204,10 @@ void Game::render() {
 
             player->render(renderer);
             renderBullets(renderer);
+            for (auto& buff : buffs) {
+                SDL_Rect dst = {buff.x, buff.y, 40, 40};
+                SDL_RenderCopy(renderer, buff.texture, NULL, &dst);
+            }
     }else if (gameState == GAME_OVER) {
         SDL_RenderCopy(renderer, gameOverTexture, NULL, NULL);
         SDL_RenderCopy(renderer, restartButtonTexture, NULL, &restartButtonRect);
@@ -251,17 +274,9 @@ void Game::shoot(bool isLaser) {
         int playerX = player->getRect().x + (Player_WIDTH - Bullet_WIDTH)/2;
         int playerY = player->getRect().y;
 
-        if (isLaser) {
-            bullets.push_back(new LaserBullet(playerX, playerY, laserTexture));
-        } else {
-            bullets.push_back(new NormalBullet(playerX, playerY, bulletTexture));
-        }
+        bullets.push_back(new LaserBullet(playerX, playerY, laserTexture));
+
     }
-}
-void Game::toggleBulletType() {
-    isLaser = !isLaser;
-    shootSpeed = isLaser ? 100 : 300;
-    cout << "Switched bullet type: " << (isLaser ? "Laser" : "Normal") << endl;
 }
 void Game::toggleAutoShoot() {
     autoShoot = !autoShoot;
@@ -305,5 +320,15 @@ void Game::restartGame() {
     chickens.clear();
     spawnChickens(NUM_CHICKENS);
     gameState = PLAYING;
+}
+void Game::spawnBuff() {
+    if (Random(0, 100) < 1) {
+        Buff buff;
+        buff.x = Random(0, SCREEN_WIDTH - 40);
+        buff.y = Random(50, SCREEN_HEIGHT / 2);
+        buff.texture = healBuffTexture;
+        buff.spawnTime = SDL_GetTicks();
+        buffs.push_back(buff);
+    }
 }
 

@@ -11,10 +11,19 @@
 #include "NormalBullet.h"
 #include "LaserBullet.h"
 #include "Utils.h"
+#include "Random.h"
 #include "Config.h"
 #include "Background.h"
 
 using namespace std;
+
+struct Buff {
+    int x, y;
+    int fallSpeed = 2;
+    Uint32 spawnTime;
+    SDL_Texture* texture;
+};
+
 class Game {
 public:
 
@@ -38,7 +47,7 @@ public:
     void setGameState(GameState state);
     void handleCollisions();
     SDL_Texture* loadTexture(const string& filePath);
-
+    void spawnBuff();
     private:
     SDL_Window* window;
     SDL_Renderer* renderer;
@@ -49,7 +58,7 @@ public:
     vector<Bullet*> bullets;
     Background* background;
     bool isLaser = false;
-    int shootSpeed = 300;
+    int shootSpeed = 100;
     Uint32 lastShotTime = 0;
     bool autoShoot = false;
     SDL_Texture* chickenTexture;
@@ -62,6 +71,9 @@ public:
     SDL_Texture* restartButtonTexture;
     SDL_Rect restartButtonRect;
     SDL_Texture* victoryTexture;
+    vector<Buff> buffs;
+    SDL_Texture* healBuffTexture;
+
 };
 
 #endif

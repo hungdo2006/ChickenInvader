@@ -9,6 +9,7 @@ class Player
 		~Player();
 		void reset();
         bool takeDamage(int damage);
+        void heal(int healing);
 		void handleInput( SDL_Event& e , Game* game);
 		void update();
 		void render(SDL_Renderer* renderer);

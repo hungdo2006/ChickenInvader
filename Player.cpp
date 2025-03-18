@@ -26,7 +26,12 @@ bool Player::takeDamage(int damage) {
     }
     return false;
 }
-
+void Player::heal(int healing){
+    health += healing;
+    if(health >= maxHealth){
+        health = maxHealth;
+    }
+}
 void Player::handleInput( SDL_Event& e, Game* game )
 {
      bool isLaser = false;
@@ -90,5 +95,6 @@ void Player::reset() {
     mPosY = SCREEN_HEIGHT/2  + 50;
     health = maxHealth;
 }
+
 
 
