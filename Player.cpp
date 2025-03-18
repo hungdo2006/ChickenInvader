@@ -82,7 +82,7 @@ void Player::render(SDL_Renderer* renderer)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderFillRect(renderer, &healthBarBg);
 
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
     SDL_RenderFillRect(renderer, &healthBar);
 
     SDL_RenderCopy(renderer, texture, nullptr, &rectPlayer);

@@ -51,7 +51,7 @@ bool Game::init(){
     restartButtonRect = {300, 450, 200, 100};
     victoryTexture = loadTexture("assets/textures/victory.jpg");
     healBuffTexture = loadTexture("assets/textures/heal_buff.png");
-
+    fireRateBuffTexture = loadTexture("assets/textures/restart_button.jpg");
     player = new Player(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2  + 50);
     background = new Background(this, "assets/textures/background.png", 2);
     chickenTexture = loadTexture("assets/textures/chicken.png");
@@ -181,11 +181,26 @@ void Game::update(){
         }
 
         if (checkCollision(player->getRect(), {buffs[i].x, buffs[i].y, 40, 40})) {
-            player->heal(20);
-            buffs.erase(buffs.begin() + i);
-            i--;
-            }
+                if (buffs[i].isHeal) {
+                        player->heal(20);
+                } else {
+                        fireRateBuffActive = true;
+                        fireRateBuffStartTime = SDL_GetTicks();
+                        fireRateMultiplier += 0.25;
+                        if (fireRateMultiplier > MAX_FIRE_RATE_MULTIPLIER) {
+                                    fireRateMultiplier = MAX_FIRE_RATE_MULTIPLIER;
+                        }
+                        shootSpeed = BASE_SHOOT_SPEED / fireRateMultiplier;
+                }
+                buffs.erase(buffs.begin() + i);
+                i--;
         }
+        if (fireRateBuffActive && SDL_GetTicks() - fireRateBuffStartTime >= 5000) {
+                fireRateBuffActive = false;
+                shootSpeed = BASE_SHOOT_SPEED;
+                fireRateMultiplier = 1.0;
+        }
+    }
 }
 void Game::render() {
 
@@ -296,7 +311,7 @@ void Game::updateBullets() {
         for (int j = 0; j < chickens.size(); j++) {
             if (checkCollision(bullets[i]->getRect(), chickens[j]->getRect())) {
 
-                chickens[j]->takeDamage(25);
+                chickens[j]->takeDamage(1);
 
                 delete bullets[i];
                 bullets.erase(bullets.begin() + i);
@@ -319,6 +334,8 @@ void Game::restartGame() {
     player->reset();
     chickens.clear();
     spawnChickens(NUM_CHICKENS);
+    fireRateBuffActive = false;
+    shootSpeed = 200;
     gameState = PLAYING;
 }
 void Game::spawnBuff() {
@@ -326,7 +343,8 @@ void Game::spawnBuff() {
         Buff buff;
         buff.x = Random(0, SCREEN_WIDTH - 40);
         buff.y = Random(50, SCREEN_HEIGHT / 2);
-        buff.texture = healBuffTexture;
+        buff.isHeal = Random(0,1);
+        buff.texture = buff.isHeal ? healBuffTexture : fireRateBuffTexture;
         buff.spawnTime = SDL_GetTicks();
         buffs.push_back(buff);
     }

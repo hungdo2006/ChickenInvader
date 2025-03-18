@@ -22,6 +22,7 @@ struct Buff {
     int fallSpeed = 2;
     Uint32 spawnTime;
     SDL_Texture* texture;
+    bool isHeal;
 };
 
 class Game {
@@ -58,7 +59,7 @@ public:
     vector<Bullet*> bullets;
     Background* background;
     bool isLaser = false;
-    int shootSpeed = 100;
+    int shootSpeed = BASE_SHOOT_SPEED;
     Uint32 lastShotTime = 0;
     bool autoShoot = false;
     SDL_Texture* chickenTexture;
@@ -73,7 +74,10 @@ public:
     SDL_Texture* victoryTexture;
     vector<Buff> buffs;
     SDL_Texture* healBuffTexture;
-
+    SDL_Texture* fireRateBuffTexture;
+    Uint32 fireRateBuffStartTime = 0;
+    bool fireRateBuffActive = false;
+    double fireRateMultiplier = 1.0;
 };
 
 #endif

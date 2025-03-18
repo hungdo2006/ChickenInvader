@@ -17,5 +17,7 @@ const int LASER_BULLET_SPEED = -20;
 const int Bullet_WIDTH = 40;
 const int Bullet_HEIGHT = 40;
 enum GameState { MENU, PLAYING, GAME_OVER, STATE_VICTORY};
+const int BASE_SHOOT_SPEED = 200;
+const double MAX_FIRE_RATE_MULTIPLIER = 4.0;
 
 #endif
