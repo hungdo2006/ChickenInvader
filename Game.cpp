@@ -43,23 +43,23 @@ bool Game::init(){
             }
         }
     }
-    menuTexture = loadTexture("assets/textures/menu.jpg");
-    startButtonTexture = loadTexture("assets/textures/start_button.png");
-    startButtonRect = {200, 300, 200, 100};
-    gameOverTexture = loadTexture("assets/textures/game_over.jpg");
-    restartButtonTexture = loadTexture("assets/textures/restart_button.jpg");
-    restartButtonRect = {300, 450, 200, 100};
-    victoryTexture = loadTexture("assets/textures/victory.jpg");
+    menuTexture = loadTexture("assets/textures/earth.jpg");
+    startButtonTexture = loadTexture("assets/textures/but1.png");
+    startButtonRect = {50, 300, 500, 100};
+    gameOverTexture = loadTexture("assets/textures/game_over1.jpg");
+    restartButtonTexture = loadTexture("assets/textures/restart.png");
+    restartButtonRect = {(SCREEN_WIDTH - 500)/2, 600, 500, 100};
+    victoryTexture = loadTexture("assets/textures/victory1.png");
     healBuffTexture = loadTexture("assets/textures/heal_buff.png");
-    fireRateBuffTexture = loadTexture("assets/textures/restart_button.jpg");
-    background = new Background(this, "assets/textures/background.png", 2);
-    chickenTexture = loadTexture("assets/textures/chicken.png");
+    fireRateBuffTexture = loadTexture("assets/textures/speedbuff1.png");
+    background = new Background(this, "assets/textures/space2.png", 2);
+    chickenTexture = loadTexture("assets/textures/chicken1.png");
     laserTexture = loadTexture("assets/textures/laser.png");
     eggTexture = loadTexture("assets/textures/egg.png");
     eggBrokenTexture = loadTexture("assets/textures/egg_broken.png");
 
     running = true;
-    player = new Player(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2  + 50);
+    player = new Player(this, (SCREEN_WIDTH-Player_WIDTH)/2, SCREEN_HEIGHT/2  + 200);
     spawnChickens(NUM_CHICKENS);
 
     return success;

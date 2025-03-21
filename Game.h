@@ -8,7 +8,6 @@
 #include "Player.h"
 #include "Chicken.h"
 #include "Bullet.h"
-#include "NormalBullet.h"
 #include "LaserBullet.h"
 #include "Utils.h"
 #include "Random.h"

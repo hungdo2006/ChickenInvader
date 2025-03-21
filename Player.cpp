@@ -9,7 +9,7 @@ Player::Player(Game* game,int x, int y){
     mVelX = 0;
     mVelY = 0;
     rectPlayer = {mPosX, mPosY, Player_WIDTH, Player_HEIGHT};
-    texture = game->loadTexture("assets/textures/player.png");
+    texture = game->loadTexture("assets/textures/spaceship.png");
     if (!texture) {
         cout << "Fail to load player image!" << IMG_GetError() << endl;
     }

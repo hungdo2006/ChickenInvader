@@ -41,16 +41,12 @@
 		<Unit filename="Config.h" />
 		<Unit filename="Egg.cpp" />
 		<Unit filename="Egg.h" />
-		<Unit filename="Explosion.cpp" />
 		<Unit filename="Explosion.h" />
 		<Unit filename="Game.cpp" />
 		<Unit filename="Game.h" />
 		<Unit filename="LaserBullet.h" />
-		<Unit filename="NormalBullet.h" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.h" />
-		<Unit filename="PowerUp.cpp" />
-		<Unit filename="PowerUp.h" />
 		<Unit filename="Random.cpp" />
 		<Unit filename="Random.h" />
 		<Unit filename="Utils.cpp" />
