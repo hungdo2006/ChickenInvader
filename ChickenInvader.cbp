@@ -41,7 +41,6 @@
 		<Unit filename="Config.h" />
 		<Unit filename="Egg.cpp" />
 		<Unit filename="Egg.h" />
-		<Unit filename="Explosion.h" />
 		<Unit filename="Game.cpp" />
 		<Unit filename="Game.h" />
 		<Unit filename="LaserBullet.h" />

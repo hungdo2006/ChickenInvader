@@ -17,7 +17,7 @@ const int Chicken_MAX_HEALTH = 100;
 const int LASER_BULLET_SPEED = -10;
 const int Bullet_WIDTH = 70;
 const int Bullet_HEIGHT = 70;
-enum GameState { MENU, PLAYING, GAME_OVER, STATE_VICTORY};
+enum GameState { MENU, PLAYING, GAME_OVER, STATE_VICTORY,TUTORIAL};
 const int BASE_SHOOT_SPEED = 200;
 const double MAX_FIRE_RATE_MULTIPLIER = 4.0;
 const int TIME_SPAWN_BUFF = 5000;

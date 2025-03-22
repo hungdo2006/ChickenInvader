@@ -44,8 +44,18 @@ bool Game::init(){
         }
     }
     menuTexture = loadTexture("assets/textures/earth.jpg");
-    startButtonTexture = loadTexture("assets/textures/but1.png");
+
     startButtonRect = {50, 300, 500, 100};
+    tutorialButtonRect = {50, 400, 500, 100};
+    exitButtonRect = {50, 500, 500, 100};
+    returnButtonRect = {SCREEN_WIDTH - 50,0,50,50};
+
+    startButtonTexture = loadTexture("assets/textures/but1.png");
+    tutorialTexture = loadTexture("assets/textures/tutorialTexture.png");
+    tutorialButtonTexture = loadTexture("assets/textures/tutorial.png");
+    exitButtonTexture = loadTexture("assets/textures/exit.png");
+    returnButtonTexture = loadTexture("assets/textures/return.png");
+
     gameOverTexture = loadTexture("assets/textures/game_over1.jpg");
     restartButtonTexture = loadTexture("assets/textures/restart.png");
     restartButtonRect = {(SCREEN_WIDTH - 500)/2, 600, 500, 100};
@@ -78,11 +88,13 @@ void Game::handleEvents(){
             running = false;
         }
         if (gameState == MENU && e.type == SDL_MOUSEBUTTONDOWN) {
-        int x = e.button.x, y = e.button.y;
-        if (x >= startButtonRect.x && x <= startButtonRect.x + startButtonRect.w &&
-            y >= startButtonRect.y && y <= startButtonRect.y + startButtonRect.h) {
-            gameState = PLAYING;
-            }
+            int x = e.button.x, y = e.button.y;
+            if (x >= startButtonRect.x && x <= startButtonRect.x + startButtonRect.w && y >= startButtonRect.y && y <= startButtonRect.y + startButtonRect.h) {
+                gameState = PLAYING;
+            }else if(x >= tutorialButtonRect.x && x <= tutorialButtonRect.x + tutorialButtonRect.w && y >= tutorialButtonRect.y && y <= tutorialButtonRect.y + tutorialButtonRect.h){
+                gameState = TUTORIAL;
+            }else if(x >= exitButtonRect.x && x <= exitButtonRect.x + exitButtonRect.w && y >= exitButtonRect.y && y <= exitButtonRect.y + exitButtonRect.h)
+                running = false;
         }
         if (gameState == GAME_OVER && e.type == SDL_MOUSEBUTTONDOWN) {
         int x = e.button.x, y = e.button.y;
@@ -96,6 +108,13 @@ void Game::handleEvents(){
         if (x >= restartButtonRect.x && x <= restartButtonRect.x + restartButtonRect.w &&
             y >= restartButtonRect.y && y <= restartButtonRect.y + restartButtonRect.h) {
             restartGame();
+            }
+        }
+        if(gameState ==  TUTORIAL && e.type == SDL_MOUSEBUTTONDOWN){
+        int x = e.button.x, y = e.button.y;
+        if (x >= returnButtonRect.x && x <= returnButtonRect.x + returnButtonRect.w &&
+            y >= returnButtonRect.y && y <= returnButtonRect.y + returnButtonRect.h) {
+                gameState = MENU;
             }
         }
         player->handleInput(e,this);
@@ -211,6 +230,8 @@ void Game::render() {
      if (gameState == MENU) {
             SDL_RenderCopy(renderer, menuTexture, NULL, NULL);
             SDL_RenderCopy(renderer, startButtonTexture, NULL, &startButtonRect);
+            SDL_RenderCopy(renderer,tutorialButtonTexture,NULL,&tutorialButtonRect);
+            SDL_RenderCopy(renderer,exitButtonTexture,NULL,&exitButtonRect);
     } else if (gameState == PLAYING) {
             background->render(renderer);
 
@@ -230,6 +251,9 @@ void Game::render() {
     }else if (gameState == STATE_VICTORY) {
         SDL_RenderCopy(renderer, victoryTexture, NULL, NULL);
         SDL_RenderCopy(renderer, restartButtonTexture, NULL, &restartButtonRect);
+    }else if(gameState == TUTORIAL){
+        SDL_RenderCopy(renderer,tutorialTexture,NULL,NULL);
+        SDL_RenderCopy(renderer,returnButtonTexture,NULL,&returnButtonRect);
     }
 
     SDL_RenderPresent(renderer);
@@ -249,6 +273,10 @@ void Game::close() {
     bullets.clear();
 
     delete background;
+    SDL_DestroyTexture(returnButtonTexture);
+    SDL_DestroyTexture(tutorialTexture);
+    SDL_DestroyTexture(tutorialButtonTexture);
+    SDL_DestroyTexture(exitButtonTexture);
     SDL_DestroyTexture(restartButtonTexture);
     SDL_DestroyTexture(menuTexture);
     SDL_DestroyTexture(startButtonTexture);

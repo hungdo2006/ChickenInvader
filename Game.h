@@ -68,7 +68,14 @@ public:
     SDL_Texture* eggBrokenTexture;
     SDL_Texture* menuTexture;
     SDL_Texture* startButtonTexture;
+    SDL_Texture*  tutorialTexture;
+    SDL_Texture* tutorialButtonTexture;
+    SDL_Texture* exitButtonTexture;
+    SDL_Texture* returnButtonTexture;
     SDL_Rect startButtonRect;
+    SDL_Rect tutorialButtonRect;
+    SDL_Rect exitButtonRect;
+    SDL_Rect returnButtonRect;
     SDL_Texture* gameOverTexture;
     SDL_Texture* restartButtonTexture;
     SDL_Rect restartButtonRect;
