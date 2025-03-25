@@ -3,8 +3,11 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 #include <bits/stdc++.h>
+#include <fstream>
+
 #include "Player.h"
 #include "Chicken.h"
 #include "Bullet.h"
@@ -39,29 +42,39 @@ public:
     bool isRunning();
     void restartGame();
     void spawnChickens(int num);
-    void shoot(bool isLaser);
+    void shoot();
     void toggleBulletType();
     void toggleAutoShoot();
     void updateBullets();
+    void renderScore();
+    void renderScoreMenu();
     void renderBullets(SDL_Renderer* renderer);
     void setGameState(GameState state);
     void handleCollisions();
     SDL_Texture* loadTexture(const string& filePath);
     void spawnBuff();
+    int score = 0;
+    int highScore;
+    void loadHighScore();
+    void saveHighScore();
 
     private:
     SDL_Window* window;
     SDL_Renderer* renderer;
+    TTF_Font* font;
+
     bool running ;
     GameState gameState;
+
     Player* player;
     vector<Chicken*> chickens;
     vector<Bullet*> bullets;
     Background* background;
-    bool isLaser = false;
     int shootSpeed = BASE_SHOOT_SPEED;
     Uint32 lastShotTime = 0;
     bool autoShoot = false;
+    int waveCount = WAVE_COUNT;
+    int maxWaves = MAX_WAVES;
     SDL_Texture* chickenTexture;
     SDL_Texture* eggTexture;
     SDL_Texture* laserTexture;
@@ -72,10 +85,13 @@ public:
     SDL_Texture* tutorialButtonTexture;
     SDL_Texture* exitButtonTexture;
     SDL_Texture* returnButtonTexture;
+    SDL_Texture* highScoreTexture;
+    SDL_Texture* highScoreButtonTexture;
     SDL_Rect startButtonRect;
     SDL_Rect tutorialButtonRect;
     SDL_Rect exitButtonRect;
     SDL_Rect returnButtonRect;
+    SDL_Rect highScoreButtonRect;
     SDL_Texture* gameOverTexture;
     SDL_Texture* restartButtonTexture;
     SDL_Rect restartButtonRect;
