@@ -8,7 +8,7 @@ Mix_Chunk* SoundManager::eggSound = nullptr;
 Mix_Chunk* SoundManager::buttonClickSound = nullptr;
 
 bool SoundManager::loadSounds() {
-    shootSound = Mix_LoadWAV("assets/sounds/shoot.wav");
+    shootSound = Mix_LoadWAV("assets/sounds/shoot1.wav");
     explosionSound = Mix_LoadWAV("assets/sounds/quack.wav");
     backgroundMusic = Mix_LoadMUS("assets/sounds/music.mp3");
     eggSound = Mix_LoadWAV("assets/sounds/egg.wav");

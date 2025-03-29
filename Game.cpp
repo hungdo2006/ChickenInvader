@@ -60,26 +60,26 @@ bool Game::init(){
             }
         }
     }
-    menuTexture = loadTexture("assets/textures/earth.jpg");
+    menuTexture = loadTexture("assets/textures/earth2.jpg");
 
-    startButtonRect = {50, 300, 500, 100};
-    tutorialButtonRect = {50, 400, 500, 100};
-    exitButtonRect = {50, 600, 500, 100};
+    startButtonRect = {482, 250, 317, 100};
+    tutorialButtonRect = {482, 350, 317, 100};
+    highScoreButtonRect = {482, 450, 317, 100};
+    exitButtonRect = {482, 550, 317, 100};
+    restartButtonRect = {482, 600, 317, 100};
     returnButtonRect = {SCREEN_WIDTH - 50,0,50,50};
-    highScoreButtonRect = {50, 500, 500, 100};
 
-    startButtonTexture = loadTexture("assets/textures/but1.png");
+    startButtonTexture = loadTexture("assets/textures/start1.png");
     tutorialTexture = loadTexture("assets/textures/tutorialTexture.png");
-    tutorialButtonTexture = loadTexture("assets/textures/tutorial.png");
-    exitButtonTexture = loadTexture("assets/textures/exit.png");
+    tutorialButtonTexture = loadTexture("assets/textures/tutorial1.png");
+    exitButtonTexture = loadTexture("assets/textures/exit1.png");
     returnButtonTexture = loadTexture("assets/textures/return.png");
     highScoreTexture = loadTexture("assets/textures/highScore1.jpg");
-    highScoreButtonTexture = loadTexture("assets/textures/high_score_button.png");
+    highScoreButtonTexture = loadTexture("assets/textures/highScore.png");
 
-    gameOverTexture = loadTexture("assets/textures/game_over1.jpg");
-    restartButtonTexture = loadTexture("assets/textures/restart.png");
-    restartButtonRect = {(SCREEN_WIDTH - 500)/2, 600, 500, 100};
-    victoryTexture = loadTexture("assets/textures/gameVictory.jpg");
+    gameOverTexture = loadTexture("assets/textures/game_over2.jpg");
+    restartButtonTexture = loadTexture("assets/textures/restart1.png");
+    victoryTexture = loadTexture("assets/textures/victory1.jpg");
     healBuffTexture = loadTexture("assets/textures/heal_buff.png");
     fireRateBuffTexture = loadTexture("assets/textures/speedbuff1.png");
     background = new Background(this, "assets/textures/space2.png", 2);
@@ -320,11 +320,11 @@ void Game::render() {
     }else if (gameState == GAME_OVER) {
         SDL_RenderCopy(renderer, gameOverTexture, NULL, NULL);
         SDL_RenderCopy(renderer, restartButtonTexture, NULL, &restartButtonRect);
-
+        renderScore(SCREEN_WIDTH/2 - 200 , SCREEN_HEIGHT-400, SCREEN_WIDTH/2 - 200 , SCREEN_HEIGHT-300);
     }else if (gameState == STATE_VICTORY) {
         SDL_RenderCopy(renderer, victoryTexture, NULL, NULL);
         SDL_RenderCopy(renderer, restartButtonTexture, NULL, &restartButtonRect);
-        renderScore(SCREEN_WIDTH/2 - 200 , SCREEN_HEIGHT-300, SCREEN_WIDTH/2 - 200 , SCREEN_HEIGHT-200);
+        renderScore(SCREEN_WIDTH/2 - 200 , SCREEN_HEIGHT-400, SCREEN_WIDTH/2 - 200 , SCREEN_HEIGHT-300);
     }else if(gameState == TUTORIAL){
         SDL_RenderCopy(renderer,tutorialTexture,NULL,NULL);
         SDL_RenderCopy(renderer,returnButtonTexture,NULL,&returnButtonRect);

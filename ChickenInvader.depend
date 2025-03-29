@@ -22,7 +22,7 @@
 1741599040 d:\chickeninvader\utils.h
 	<SDL.h>
 
-1743241741 d:\chickeninvader\config.h
+1743263701 d:\chickeninvader\config.h
 
 1742560910 source:d:\chickeninvader\player.cpp
 	<bits/stdc++.h>
@@ -60,7 +60,7 @@
 	<SDL.h>
 	"Config.h"
 
-1743242122 source:d:\chickeninvader\game.cpp
+1743263621 source:d:\chickeninvader\game.cpp
 	<bits/stdc++.h>
 	"Game.h"
 	"Config.h"
@@ -105,6 +105,6 @@
 	<SDL_mixer.h>
 	<iostream>
 
-1743240474 source:d:\chickeninvader\soundmanager.cpp
+1743261262 source:d:\chickeninvader\soundmanager.cpp
 	"SoundManager.h"
 
