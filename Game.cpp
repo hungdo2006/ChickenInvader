@@ -15,7 +15,7 @@ Game::~Game() {
 bool Game::init(){
     bool success = true;
     gameState = MENU;
-    if(SDL_Init(SDL_INIT_VIDEO < 0)){
+    if(SDL_Init((SDL_INIT_VIDEO | SDL_INIT_AUDIO)< 0)){
         cout << "SDL could not initialize! SDL Error: " << SDL_GetError() << endl;
         success = false;
     }else{
@@ -30,11 +30,23 @@ bool Game::init(){
                success = false;
             }else{
                 SDL_SetRenderDrawColor(renderer,255,255,255,255);
+
                 int imgFlags = IMG_INIT_PNG|IMG_INIT_JPG;
                 if(!IMG_Init(imgFlags)){
                     cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError()<< endl;
                     success = false;
                 }
+
+                int mixerFlags = MIX_INIT_MP3 | MIX_INIT_OGG;
+                if(!Mix_Init(mixerFlags)){
+                    cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError()<< endl;
+                    success = false;
+                }
+                if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+                    cout << "SDL_mixer could not open audio! Mix_Error: " << Mix_GetError() << endl;
+                    success = false;
+                }
+
                 if(TTF_Init() == -1){
                     cout << "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << endl;
                     success = false;
@@ -44,6 +56,7 @@ bool Game::init(){
                             cout << "Failed to load font: " << TTF_GetError() << endl;
                     }
                 }
+
             }
         }
     }
@@ -66,7 +79,7 @@ bool Game::init(){
     gameOverTexture = loadTexture("assets/textures/game_over1.jpg");
     restartButtonTexture = loadTexture("assets/textures/restart.png");
     restartButtonRect = {(SCREEN_WIDTH - 500)/2, 600, 500, 100};
-    victoryTexture = loadTexture("assets/textures/victory1.png");
+    victoryTexture = loadTexture("assets/textures/gameVictory.jpg");
     healBuffTexture = loadTexture("assets/textures/heal_buff.png");
     fireRateBuffTexture = loadTexture("assets/textures/speedbuff1.png");
     background = new Background(this, "assets/textures/space2.png", 2);
@@ -79,6 +92,10 @@ bool Game::init(){
     loadHighScore();
     player = new Player(this, (SCREEN_WIDTH-Player_WIDTH)/2, SCREEN_HEIGHT/2  + 200);
     spawnChickens(NUM_CHICKENS);
+    if (!SoundManager::loadSounds()) {
+    cout << "Failed to load audio!" << endl;
+    }
+    SoundManager::playBackgroundMusic();
 
     return success;
 }
@@ -98,12 +115,16 @@ void Game::handleEvents(){
         if (gameState == MENU && e.type == SDL_MOUSEBUTTONDOWN) {
             int x = e.button.x, y = e.button.y;
             if (x >= startButtonRect.x && x <= startButtonRect.x + startButtonRect.w && y >= startButtonRect.y && y <= startButtonRect.y + startButtonRect.h) {
+                SoundManager::playClickSound();
                 gameState = PLAYING;
             }else if(x >= tutorialButtonRect.x && x <= tutorialButtonRect.x + tutorialButtonRect.w && y >= tutorialButtonRect.y && y <= tutorialButtonRect.y + tutorialButtonRect.h){
+                SoundManager::playClickSound();
                 gameState = TUTORIAL;
             }else if(x >= highScoreButtonRect.x && x <= highScoreButtonRect.x + highScoreButtonRect.w && y >= highScoreButtonRect.y && y <= highScoreButtonRect.y + highScoreButtonRect.h){
+                SoundManager::playClickSound();
                 gameState = HIGH_SCORE;
             }else if(x >= exitButtonRect.x && x <= exitButtonRect.x + exitButtonRect.w && y >= exitButtonRect.y && y <= exitButtonRect.y + exitButtonRect.h){
+                SoundManager::playClickSound();
                 running = false;
             }
         }
@@ -111,6 +132,7 @@ void Game::handleEvents(){
         int x = e.button.x, y = e.button.y;
         if (x >= restartButtonRect.x && x <= restartButtonRect.x + restartButtonRect.w &&
             y >= restartButtonRect.y && y <= restartButtonRect.y + restartButtonRect.h) {
+            SoundManager::playClickSound();
             restartGame();
             }
         }
@@ -118,6 +140,7 @@ void Game::handleEvents(){
         int x = e.button.x, y = e.button.y;
         if (x >= restartButtonRect.x && x <= restartButtonRect.x + restartButtonRect.w &&
             y >= restartButtonRect.y && y <= restartButtonRect.y + restartButtonRect.h) {
+            SoundManager::playClickSound();
             restartGame();
             }
         }
@@ -125,6 +148,7 @@ void Game::handleEvents(){
         int x = e.button.x, y = e.button.y;
         if (x >= returnButtonRect.x && x <= returnButtonRect.x + returnButtonRect.w &&
             y >= returnButtonRect.y && y <= returnButtonRect.y + returnButtonRect.h) {
+                SoundManager::playClickSound();
                 gameState = MENU;
             }
         }
@@ -132,6 +156,7 @@ void Game::handleEvents(){
         int x = e.button.x, y = e.button.y;
         if (x >= returnButtonRect.x && x <= returnButtonRect.x + returnButtonRect.w &&
             y >= returnButtonRect.y && y <= returnButtonRect.y + returnButtonRect.h) {
+                SoundManager::playClickSound();
                 gameState = MENU;
             }
         }
@@ -180,6 +205,7 @@ void Game::update(){
             if (checkCollision(player->getRect(), egg->getRect())) {
                  if (!egg->getBroken()) {
                     egg->onCollision();
+                    SoundManager::playEggSound();
                     if (score >= REMOVE_SCORE_PER_EGG) {
                             score -= REMOVE_SCORE_PER_EGG;
                     } else {
@@ -197,6 +223,7 @@ void Game::update(){
             }
         }
         if (chickens[i]->getIsDead()) {
+            SoundManager::playExplosionSound();
             score += SCORE_PER_CHICKEN;
             vector<Egg*>& eggs = chickens[i]->getEggs();
             for (size_t j = 0; j < eggs.size(); j++) {
@@ -279,7 +306,7 @@ void Game::render() {
             SDL_RenderCopy(renderer,exitButtonTexture,NULL,&exitButtonRect);
     } else if (gameState == PLAYING) {
             background->render(renderer);
-            renderScore();
+            renderScore(10,10,SCREEN_WIDTH - 400,10);
             for (auto* chicken : chickens){
                 chicken->render(renderer);
             }
@@ -293,9 +320,11 @@ void Game::render() {
     }else if (gameState == GAME_OVER) {
         SDL_RenderCopy(renderer, gameOverTexture, NULL, NULL);
         SDL_RenderCopy(renderer, restartButtonTexture, NULL, &restartButtonRect);
+
     }else if (gameState == STATE_VICTORY) {
         SDL_RenderCopy(renderer, victoryTexture, NULL, NULL);
         SDL_RenderCopy(renderer, restartButtonTexture, NULL, &restartButtonRect);
+        renderScore(SCREEN_WIDTH/2 - 200 , SCREEN_HEIGHT-300, SCREEN_WIDTH/2 - 200 , SCREEN_HEIGHT-200);
     }else if(gameState == TUTORIAL){
         SDL_RenderCopy(renderer,tutorialTexture,NULL,NULL);
         SDL_RenderCopy(renderer,returnButtonTexture,NULL,&returnButtonRect);
@@ -341,6 +370,7 @@ void Game::close() {
     SDL_Quit();
     IMG_Quit();
     TTF_CloseFont(font);
+    SoundManager::clean();
 }
 bool Game::isRunning(){
     return running;
@@ -367,6 +397,7 @@ void Game::shoot() {
         int playerY = player->getRect().y;
         bullets.push_back(new LaserBullet(playerX, playerY, laserTexture));
     }
+    SoundManager::playShootSound();
 }
 void Game::toggleAutoShoot() {
     autoShoot = !autoShoot;
@@ -426,19 +457,19 @@ void Game::spawnBuff() {
         buffs.push_back(buff);
     }
 }
-void Game::renderScore(){
+void Game::renderScore(int x , int y , int x1 , int y1){
     SDL_Color white = {255, 255, 255};
 
     string scoreText = "Score: " + to_string(score);
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, scoreText.c_str(), white);
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-    SDL_Rect textRect = {10, 10, textSurface->w, textSurface->h};
+    SDL_Rect textRect = {x, y, textSurface->w, textSurface->h};
     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
     string highScoreText = "High Score: " + to_string(highScore);
     SDL_Surface* highScoresurface = TTF_RenderText_Solid(font, highScoreText.c_str(), white);
     SDL_Texture* highScoretexture = SDL_CreateTextureFromSurface(renderer, highScoresurface);
-    SDL_Rect highTextRect = {SCREEN_WIDTH - highScoresurface->w - 10, 10, highScoresurface->w, highScoresurface->h};
+    SDL_Rect highTextRect = {x1, y1, highScoresurface->w, highScoresurface->h};
     SDL_RenderCopy(renderer, highScoretexture, NULL, &highTextRect);
 
     SDL_FreeSurface(textSurface);
@@ -454,6 +485,9 @@ void Game::renderScoreMenu(){
     SDL_Texture* highScoreMenutexture = SDL_CreateTextureFromSurface(renderer, highScoreMenusurface);
     SDL_Rect highTextMenuRect = {(SCREEN_WIDTH - highScoreMenusurface->w)/2,(SCREEN_HEIGHT - highScoreMenusurface->h)/2, highScoreMenusurface->w, highScoreMenusurface->h};
     SDL_RenderCopy(renderer, highScoreMenutexture, NULL, &highTextMenuRect);
+
+    SDL_FreeSurface(highScoreMenusurface);
+    SDL_DestroyTexture(highScoreMenutexture);
 }
 void Game::loadHighScore() {
     ifstream file("highscore.txt");

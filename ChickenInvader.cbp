@@ -48,6 +48,8 @@
 		<Unit filename="Player.h" />
 		<Unit filename="Random.cpp" />
 		<Unit filename="Random.h" />
+		<Unit filename="SoundManager.cpp" />
+		<Unit filename="SoundManager.h" />
 		<Unit filename="Utils.cpp" />
 		<Unit filename="Utils.h" />
 		<Unit filename="main.cpp" />

@@ -22,7 +22,7 @@
 1741599040 d:\chickeninvader\utils.h
 	<SDL.h>
 
-1742895538 d:\chickeninvader\config.h
+1743241741 d:\chickeninvader\config.h
 
 1742560910 source:d:\chickeninvader\player.cpp
 	<bits/stdc++.h>
@@ -39,10 +39,11 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1742898219 d:\chickeninvader\game.h
+1743241351 d:\chickeninvader\game.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
+	<SDL_mixer.h>
 	<bits/stdc++.h>
 	<fstream>
 	"Player.h"
@@ -53,12 +54,13 @@
 	"Random.h"
 	"Config.h"
 	"Background.h"
+	"SoundManager.h"
 
 1742307122 d:\chickeninvader\bullet.h
 	<SDL.h>
 	"Config.h"
 
-1742897885 source:d:\chickeninvader\game.cpp
+1743242122 source:d:\chickeninvader\game.cpp
 	<bits/stdc++.h>
 	"Game.h"
 	"Config.h"
@@ -98,4 +100,11 @@
 1742895281 source:d:\chickeninvader\egg.cpp
 	"Egg.h"
 	<iostream>
+
+1743240352 d:\chickeninvader\soundmanager.h
+	<SDL_mixer.h>
+	<iostream>
+
+1743240474 source:d:\chickeninvader\soundmanager.cpp
+	"SoundManager.h"
 

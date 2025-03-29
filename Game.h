@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 #include <bits/stdc++.h>
 #include <fstream>
@@ -16,6 +17,7 @@
 #include "Random.h"
 #include "Config.h"
 #include "Background.h"
+#include "SoundManager.h"
 
 using namespace std;
 
@@ -46,7 +48,7 @@ public:
     void toggleBulletType();
     void toggleAutoShoot();
     void updateBullets();
-    void renderScore();
+    void renderScore(int x, int y, int x1, int y1);
     void renderScoreMenu();
     void renderBullets(SDL_Renderer* renderer);
     void setGameState(GameState state);
