@@ -23,6 +23,7 @@ bool SoundManager::loadSounds() {
 }
 
 void SoundManager::playShootSound() {
+    Mix_VolumeChunk(shootSound, 32);
     Mix_PlayChannel(-1, shootSound, 0);
 }
 
@@ -31,6 +32,7 @@ void SoundManager::playExplosionSound() {
 }
 
 void SoundManager::playBackgroundMusic() {
+    Mix_VolumeMusic(32);
     Mix_PlayMusic(backgroundMusic, -1);
 }
 

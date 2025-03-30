@@ -33,7 +33,6 @@ void Player::heal(int healing){
 }
 void Player::handleInput( SDL_Event& e, Game* game )
 {
-     bool isLaser = false;
 	if( e.type == SDL_KEYDOWN && e.key.repeat == 0 )
     {
         switch( e.key.keysym.sym )

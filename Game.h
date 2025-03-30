@@ -45,13 +45,11 @@ public:
     void restartGame();
     void spawnChickens(int num);
     void shoot();
-    void toggleBulletType();
     void toggleAutoShoot();
     void updateBullets();
     void renderScore(int x, int y, int x1, int y1);
     void renderScoreMenu();
     void renderBullets(SDL_Renderer* renderer);
-    void setGameState(GameState state);
     void handleCollisions();
     SDL_Texture* loadTexture(const string& filePath);
     void spawnBuff();
