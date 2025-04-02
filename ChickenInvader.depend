@@ -6,14 +6,14 @@
 
 1741424921 source:d:\chickeninvader\powerup.cpp
 
-1742307069 source:d:\chickeninvader\chicken.cpp
+1743567133 source:d:\chickeninvader\chicken.cpp
 	"Chicken.h"
 	"Game.h"
 	"Random.h"
 	<iostream>
 	<vector>
 
-1742306749 d:\chickeninvader\chicken.h
+1743566901 d:\chickeninvader\chicken.h
 	<SDL.h>
 	<vector>
 	"Egg.h"
@@ -22,7 +22,7 @@
 1741599040 d:\chickeninvader\utils.h
 	<SDL.h>
 
-1743345364 d:\chickeninvader\config.h
+1743567212 d:\chickeninvader\config.h
 
 1743343436 source:d:\chickeninvader\player.cpp
 	<bits/stdc++.h>
@@ -33,13 +33,13 @@
 	<SDL.h>
 	"Config.h"
 
-1742894595 source:d:\chickeninvader\main.cpp
+1743595808 source:d:\chickeninvader\main.cpp
 	<bits/stdc++.h>
 	"Game.h"
 	<SDL.h>
 	<SDL_image.h>
 
-1743341735 d:\chickeninvader\game.h
+1743561287 d:\chickeninvader\game.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
@@ -60,7 +60,7 @@
 	<SDL.h>
 	"Config.h"
 
-1743341803 source:d:\chickeninvader\game.cpp
+1743596091 source:d:\chickeninvader\game.cpp
 	<bits/stdc++.h>
 	"Game.h"
 	"Config.h"

@@ -5,23 +5,29 @@
 #include "Egg.h"
 #include "Config.h"
 using namespace std;
-class Game;
 class Chicken
 {
     public:
-		Chicken(Game* game, int x, int y, SDL_Texture* tex,  SDL_Texture* eggTexture,SDL_Texture* eggBrokenTex);
+		Chicken(int x, int y, SDL_Texture* tex,  SDL_Texture* eggTexture,SDL_Texture* eggBrokenTex,SDL_Texture*boss);
 		~Chicken();
         void takeDamage(int damage);
         bool getIsDead();
         void layEgg(SDL_Texture* eggTexture,SDL_Texture* eggBrokenTex);
 		void update();
 		void render(SDL_Renderer* renderer);
+		void renderBoss(SDL_Renderer* renderer);
 		SDL_Rect getRect() const;
         vector<Egg*>& getEggs();
         void removeEgg(int index);
+        void setSize(int x , int y);
+        void setHealth(int health);
+        void setBoss();
+        void setBossVel(int x , int y);
+        int getHealth();
     private:
+        bool isBoss = false;
         int health;
-        const int maxHealth = Chicken_MAX_HEALTH;
+        int maxHealth = Chicken_MAX_HEALTH;
         bool isDead = false;
 		int mPosX, mPosY;
 		int mVelX, mVelY;
@@ -31,5 +37,6 @@ class Chicken
         SDL_Texture* chickenTexture;
         SDL_Texture* eggTexture;
         SDL_Texture* eggBrokenTexture;
+        SDL_Texture* bossTexture;
 };
 #endif

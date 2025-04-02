@@ -84,14 +84,15 @@ bool Game::init(){
     fireRateBuffTexture = loadTexture("assets/textures/speedbuff1.png");
     background = new Background(this, "assets/textures/space2.png", 2);
     chickenTexture = loadTexture("assets/textures/chicken1.png");
+    bossTexture = loadTexture("assets/textures/boss.png");
     laserTexture = loadTexture("assets/textures/laser.png");
     eggTexture = loadTexture("assets/textures/egg.png");
     eggBrokenTexture = loadTexture("assets/textures/egg_broken.png");
 
     running = true;
     loadHighScore();
-    player = new Player(this, (SCREEN_WIDTH-Player_WIDTH)/2, SCREEN_HEIGHT/2  + 200);
     spawnChickens(NUM_CHICKENS);
+    player = new Player(this, (SCREEN_WIDTH-Player_WIDTH)/2, SCREEN_HEIGHT/2  + 200);
     if (!SoundManager::loadSounds()) {
     cout << "Failed to load audio!" << endl;
     }
@@ -203,8 +204,20 @@ void Game::update(){
                 saveHighScore();
             }
     }
-
-    if (gameState == PLAYING &&chickens.empty() && waveCount == maxWaves) {
+     if (gameState == PLAYING && waveCount < maxWaves && chickens.empty()) {
+        spawnChickens(NUM_CHICKENS + waveCount*5);
+        waveCount++;
+    }else if(gameState == PLAYING && waveCount == maxWaves && chickens.empty()){
+        gameState = STATE_BOSS;
+        chickens.clear();
+        Chicken* boss = new Chicken(SCREEN_WIDTH / 2 - 75, 50,bossTexture,eggTexture,eggBrokenTexture,bossTexture);
+        boss->setSize(150, 150);
+        boss->setHealth(CHICKEN_BOSS_HEALTH);
+        boss->setBoss();
+        boss->setBossVel(3,3);
+        chickens.push_back(boss);
+    }
+    if (gameState == STATE_BOSS &&chickens.empty()) {
         gameState = STATE_VICTORY;
         if (score > highScore) {
                 highScore = score;
@@ -212,7 +225,8 @@ void Game::update(){
             }
     }
 
-    if (gameState == PLAYING){
+
+    if (gameState == PLAYING || gameState == STATE_BOSS){
 
     background->update();
     player->update();
@@ -252,10 +266,6 @@ void Game::update(){
             chickens.erase(chickens.begin() + i);
             i--;
         }
-    }
-    if (chickens.empty() && waveCount < maxWaves) {
-        spawnChickens(NUM_CHICKENS + waveCount*5);
-        waveCount++;
     }
 
      for (auto chicken : chickens) {
@@ -322,7 +332,7 @@ void Game::render() {
             SDL_RenderCopy(renderer,tutorialButtonTexture,NULL,&tutorialButtonRect);
             SDL_RenderCopy(renderer,highScoreButtonTexture,NULL,&highScoreButtonRect);
             SDL_RenderCopy(renderer,exitButtonTexture,NULL,&exitButtonRect);
-    } else if (gameState == PLAYING) {
+    } else if (gameState == PLAYING || gameState == STATE_BOSS) {
             background->render(renderer);
             renderScore(10,10,SCREEN_WIDTH - 450,10);
             for (auto* chicken : chickens){
@@ -383,6 +393,7 @@ void Game::close() {
     SDL_DestroyTexture(gameOverTexture);
     SDL_DestroyTexture(victoryTexture);
     SDL_DestroyTexture(chickenTexture);
+    SDL_DestroyTexture(bossTexture);
     SDL_DestroyTexture(eggTexture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -398,7 +409,7 @@ void Game::spawnChickens(int NUM_CHICKENS) {
     for (int i = 0; i < NUM_CHICKENS; i++) {
         int x = Random(0,SCREEN_WIDTH-Chicken_WIDTH);
         int y = Random(0,SCREEN_HEIGHT/2 - Chicken_HEIGHT);
-        chickens.push_back(new Chicken(this, x, y,chickenTexture,eggTexture,eggBrokenTexture));
+        chickens.push_back(new Chicken(x, y,chickenTexture,eggTexture,eggBrokenTexture,bossTexture));
     }
 }
 void Game::shoot() {
@@ -522,3 +533,4 @@ void Game::saveHighScore() {
         cout << "Failed to save highscore.txt" << endl;
     }
 }
+

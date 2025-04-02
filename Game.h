@@ -57,7 +57,6 @@ public:
     int highScore;
     void loadHighScore();
     void saveHighScore();
-
     private:
     SDL_Window* window;
     SDL_Renderer* renderer;
@@ -76,6 +75,7 @@ public:
     int waveCount = WAVE_COUNT;
     int maxWaves = MAX_WAVES;
     SDL_Texture* chickenTexture;
+    SDL_Texture* bossTexture;
     SDL_Texture* eggTexture;
     SDL_Texture* laserTexture;
     SDL_Texture* eggBrokenTexture;
